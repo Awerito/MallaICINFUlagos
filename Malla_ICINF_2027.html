@@ -1,0 +1,2775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Malla Curricular Interactiva — Ingeniería Civil en Informática | ULagos</title>
+  <style>
+    :root {
+      --ulagos-navy: #0f2c59;
+      --ulagos-blue: #1d4ed8;
+      --ulagos-gold: #eab308;
+      --bg-page: #f1f5f9;
+      --bg-surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-light: #cbd5e1;
+      --selected-ring: #0ea5e9;
+      --approved-ring: #16a34a;
+      --danger-red: #dc2626;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.4;
+      padding-bottom: 48px;
+    }
+
+    /* TOP HEADER */
+    .app-header {
+      background: linear-gradient(135deg, #0a1f44 0%, #153e75 100%);
+      color: #ffffff;
+      padding: 14px 24px;
+      box-shadow: 0 4px 16px rgba(15, 44, 89, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      max-width: 1920px;
+      margin: 0 auto;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #ffffff;
+      padding: 3px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .brand-titles h1 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+    }
+
+    .brand-titles p {
+      font-size: 0.84rem;
+      color: #bae6fd;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* DASHBOARD METRICS IN HEADER */
+    .dashboard-widgets {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.11);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 10px;
+      padding: 7px 13px;
+      min-width: 155px;
+      backdrop-filter: blur(6px);
+      transition: all 0.25s ease;
+    }
+
+    .stat-pill.warning-sct {
+      background: rgba(220, 38, 38, 0.92);
+      border-color: #fca5a5;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.45);
+      animation: pulseAlert 1.4s infinite alternate;
+    }
+
+    @keyframes pulseAlert {
+      from { transform: scale(1); }
+      to { transform: scale(1.03); }
+    }
+
+    .stat-label {
+      font-size: 0.69rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #cbd5e1;
+      display: block;
+      font-weight: 600;
+    }
+
+    .stat-pill.warning-sct .stat-label {
+      color: #fef2f2;
+    }
+
+    .stat-value {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .stat-sub {
+      font-size: 0.73rem;
+      font-weight: 500;
+      color: #e2e8f0;
+    }
+
+    /* ACTION BUTTONS */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.18s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-convalidar {
+      background: #10b981;
+      color: #052e16;
+      border-color: #34d399;
+    }
+    .btn-convalidar:hover {
+      background: #34d399;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: #eab308;
+      color: #0f172a;
+      border-color: #facc15;
+    }
+    .btn-primary:hover {
+      background: #facc15;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.24);
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fecaca;
+      border-color: rgba(248, 113, 113, 0.4);
+    }
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.35);
+      color: #ffffff;
+    }
+
+    /* WARNING BANNER FOR > 33 SCT */
+    .sct-alert-banner {
+      display: none;
+      background: linear-gradient(90deg, #991b1b 0%, #dc2626 50%, #991b1b 100%);
+      color: #ffffff;
+      padding: 10px 20px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-align: center;
+      white-space: nowrap;
+      border-bottom: 2px solid #fca5a5;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+    .sct-alert-banner.visible {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* CONVALIDATION BANNER INFO */
+    .conv-summary-banner {
+      display: none;
+      max-width: 1920px;
+      margin: 10px auto 0;
+      padding: 0 20px;
+    }
+    .conv-summary-banner.visible {
+      display: block;
+    }
+    .conv-summary-box {
+      background: #ecfdf5;
+      border: 2px solid #34d399;
+      color: #065f46;
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* SEMESTER DICTATION SELECTOR BAR (PAR / IMPAR) */
+    .semester-selector-bar {
+      max-width: 1920px;
+      margin: 12px auto 0;
+      padding: 0 20px;
+    }
+
+    .selector-card {
+      background: linear-gradient(90deg, #eff6ff 0%, #f8fafc 100%);
+      border: 2px solid #93c5fd;
+      border-radius: 12px;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      box-shadow: 0 2px 8px rgba(29, 78, 216, 0.08);
+    }
+
+    .selector-prompt {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #0f2c59;
+    }
+
+    .selector-prompt-badge {
+      background: #1d4ed8;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .period-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .period-btn {
+      padding: 7px 14px;
+      border-radius: 8px;
+      border: 2px solid #cbd5e1;
+      background: #ffffff;
+      color: #334155;
+      font-size: 0.83rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .period-btn:hover {
+      border-color: #64748b;
+      background: #f1f5f9;
+    }
+
+    .period-btn.active {
+      background: #0f2c59;
+      color: #ffffff;
+      border-color: #0f2c59;
+      box-shadow: 0 2px 8px rgba(15, 44, 89, 0.28);
+    }
+
+    .period-btn .count-pill {
+      background: rgba(15, 23, 42, 0.1);
+      color: inherit;
+      padding: 1px 7px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .period-btn.active .count-pill {
+      background: #eab308;
+      color: #0f172a;
+    }
+
+    .licenciatura-config-inline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: #334155;
+      font-weight: 600;
+      border-left: 2px solid #cbd5e1;
+      padding-left: 14px;
+    }
+
+    .licenciatura-config-inline select {
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid #94a3b8;
+      font-weight: 700;
+      font-size: 0.78rem;
+      color: #0f172a;
+      background: #ffffff;
+      cursor: pointer;
+    }
+
+    /* SUB-TOOLBAR / INSTRUCTIONS */
+    .toolbar-guide {
+      max-width: 1920px;
+      margin: 10px auto 0;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .guide-items {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      background: #ffffff;
+      padding: 7px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-light);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .guide-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .guide-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    .filter-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffffff;
+      padding: 7px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border-light);
+      font-size: 0.8rem;
+    }
+
+    /* TOAST MESSAGE */
+    .toast-notice {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      border-left: 5px solid #eab308;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.35);
+      font-size: 0.84rem;
+      font-weight: 600;
+      z-index: 200;
+      max-width: 440px;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: all 0.25s ease;
+    }
+    .toast-notice.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* MAIN MATRIX SCROLL CONTAINER */
+    .malla-wrapper {
+      position: relative;
+      max-width: 1920px;
+      margin: 12px auto;
+      padding: 0 20px;
+      overflow-x: auto;
+    }
+
+    .malla-board {
+      position: relative;
+      display: flex;
+      align-items: stretch;
+      gap: 10px;
+      min-width: 1620px;
+      padding: 8px 4px 16px;
+    }
+
+    /* SVG CONNECTOR OVERLAY */
+    #connector-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 40;
+      overflow: visible;
+    }
+
+    /* YEAR GROUP (2 SEMESTERS PER YEAR) */
+    .year-group {
+      display: flex;
+      flex-direction: column;
+      flex: 2;
+      min-width: 288px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 8px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .year-header {
+      background: var(--ulagos-navy);
+      color: #ffffff;
+      text-align: center;
+      white-space: nowrap;
+      font-weight: 800;
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 7px 10px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .year-header span.year-badge {
+      font-size: 0.72rem;
+      background: rgba(255, 255, 255, 0.18);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .semesters-row {
+      display: flex;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .semester-col {
+      flex: 1;
+      min-width: 136px;
+      display: flex;
+      flex-direction: column;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 9px;
+      padding: 6px;
+    }
+
+    .sem-header {
+      background: #e2e8f0;
+      color: #1e293b;
+      padding: 6px 8px;
+      border-radius: 6px;
+      text-align: center;
+      white-space: nowrap;
+      margin-bottom: 6px;
+    }
+
+    .sem-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+
+    .sem-quick-btn {
+      font-size: 0.65rem;
+      background: #ffffff;
+      border: 1px solid #94a3b8;
+      color: #334155;
+      border-radius: 4px;
+      padding: 1px 5px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.15s;
+    }
+    .sem-quick-btn:hover {
+      background: var(--ulagos-navy);
+      color: #ffffff;
+      border-color: var(--ulagos-navy);
+    }
+
+    /* SEMESTER SUMMARY COUNTERS */
+    .sem-counters {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      margin-top: 5px;
+      padding-top: 5px;
+      border-top: 1px solid #cbd5e1;
+      font-size: 0.67rem;
+    }
+
+    .sem-counter-box {
+      background: #ffffff;
+      border-radius: 4px;
+      padding: 2px 3px;
+      text-align: center;
+      white-space: nowrap;
+      border: 1px solid #cbd5e1;
+    }
+
+    .sem-counter-box strong {
+      display: block;
+      font-size: 0.74rem;
+      color: #0f172a;
+    }
+
+    .sem-counter-box span {
+      color: #475569;
+      font-size: 0.62rem;
+      font-weight: 600;
+    }
+
+    .courses-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    /* COURSE BOX / CARD */
+    .course-card {
+      position: relative;
+      border-radius: 8px;
+      padding: 7px 8px;
+      cursor: pointer;
+      user-select: none;
+      border: 2px solid rgba(15, 23, 42, 0.18);
+      box-shadow: 0 2px 5px rgba(15, 23, 42, 0.08);
+      transition: opacity 0.25s ease, transform 0.18s ease, box-shadow 0.2s ease, border-color 0.2s ease, filter 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 118px;
+      z-index: 10;
+    }
+
+    /* Locked (Prereqs not met OR not dictated in selected semester) -> almost transparent */
+    .course-card.locked {
+      opacity: 0.22;
+      filter: saturate(0.45);
+      border-style: dashed;
+    }
+
+    /* Unlocked & Offered in Selected Semester */
+    .course-card.unlocked {
+      opacity: 1;
+    }
+
+    /* When hovered or part of active dependency chain */
+    .course-card:hover,
+    .course-card.highlight-target,
+    .course-card.highlight-source {
+      opacity: 1 !important;
+      filter: saturate(1.08) !important;
+      transform: translateY(-2px);
+      z-index: 30;
+    }
+
+    .course-card.highlight-source {
+      box-shadow: 0 0 0 3px #0f172a, 0 8px 18px rgba(15, 23, 42, 0.28);
+    }
+
+    .course-card.highlight-target {
+      box-shadow: 0 0 0 3px #f59e0b, 0 8px 18px rgba(245, 158, 11, 0.35);
+    }
+
+    /* Newly unlocked flash effect */
+    .course-card.newly-unlocked {
+      animation: unlockGlow 1.6s ease-out;
+    }
+
+    @keyframes unlockGlow {
+      0% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.9); transform: scale(1.04); }
+      60% { box-shadow: 0 0 0 8px rgba(234, 179, 8, 0); }
+      100% { transform: scale(1); }
+    }
+
+    /* SELECTED TO TAKE (1 CLICK) */
+    .course-card.state-selected {
+      opacity: 1 !important;
+      filter: none !important;
+      border: 2.5px solid #0284c7;
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.38), 0 4px 10px rgba(2, 132, 199, 0.22);
+    }
+
+    /* APPROVED / TARJADA (2 CLICKS / DBLCLICK / CONVALIDACIÓN DU416) */
+    .course-card.state-approved {
+      opacity: 1 !important;
+      filter: none !important;
+      border: 2.5px solid #15803d;
+      box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.3);
+    }
+
+    /* Diagonal strike-through overlay ("tarjada") when approved */
+    .course-card.state-approved::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top left,
+          transparent calc(50% - 2px),
+          rgba(21, 128, 61, 0.82) calc(50% - 1.5px),
+          rgba(21, 128, 61, 0.82) calc(50% + 1.5px),
+          transparent calc(50% + 2px)),
+        rgba(22, 163, 74, 0.10);
+      border-radius: 6px;
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    .course-card.state-approved .course-name {
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+    }
+
+    /* CARD TOP BAR: Code + Competency + Dictation Period */
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .code-badge {
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: rgba(15, 23, 42, 0.16);
+      letter-spacing: 0.02em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dark-text .code-badge {
+      background: rgba(15, 23, 42, 0.12);
+      color: #0f172a;
+    }
+
+    .light-text .code-badge {
+      background: rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+    }
+
+    .comp-period-group {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .comp-tag {
+      font-size: 0.62rem;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-weight: 700;
+      opacity: 0.92;
+    }
+
+    .period-tag {
+      font-size: 0.62rem;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-weight: 800;
+      background: rgba(15, 23, 42, 0.2);
+    }
+
+    .dark-text {
+      color: #0f172a;
+    }
+
+    .light-text {
+      color: #ffffff;
+    }
+
+    /* COURSE NAME */
+    .course-name {
+      font-size: 0.76rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 2px 0 5px;
+      word-break: break-word;
+    }
+
+    /* METRICS ROW (HD, HTA, SCT) */
+    .card-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 4px;
+      border-radius: 5px;
+      margin-bottom: 3px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .dark-text .card-metrics {
+      background: rgba(255, 255, 255, 0.55);
+      color: #0f172a;
+    }
+
+    .light-text .card-metrics {
+      background: rgba(15, 23, 42, 0.36);
+      color: #f8fafc;
+    }
+
+    /* PREREQUISITES & DU416 FOOTER */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding-top: 3px;
+      border-top: 1px solid rgba(15, 23, 42, 0.14);
+    }
+
+    .light-text .card-footer {
+      border-top-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .prereq-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .du416-text {
+      font-size: 0.58rem;
+      opacity: 0.88;
+      white-space: nowrap;
+    }
+
+    /* STATUS PILL ON CARD (Selected / Approved / Not Offered in Period) */
+    .status-ribbon {
+      display: none;
+      margin-top: 4px;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 0.59rem;
+      font-weight: 800;
+      text-align: center;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      z-index: 20;
+    }
+
+    .course-card.state-selected .status-ribbon {
+      display: block;
+      background: #0284c7;
+      color: #ffffff;
+    }
+
+    .course-card.state-approved .status-ribbon {
+      display: block;
+      background: #15803d;
+      color: #ffffff;
+    }
+
+    .course-card.not-offered-period:not(.state-approved):not(.state-selected) .status-ribbon {
+      display: block;
+      background: rgba(15, 23, 42, 0.72);
+      color: #f8fafc;
+    }
+
+    /* VERTICAL MILESTONE LINES (LICENCIATURA & TÍTULO) */
+    .milestone-bar {
+      width: 48px;
+      min-width: 48px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 5px;
+      background: linear-gradient(180deg, #1e293b 0%, #334155 100%);
+      color: #ffffff;
+      border: 2px solid #475569;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+      position: relative;
+      z-index: 15;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .milestone-bar.locked-milestone {
+      opacity: 0.32;
+      filter: grayscale(0.55);
+      border-style: dashed;
+    }
+
+    .milestone-bar.unlocked-milestone {
+      opacity: 1;
+      background: linear-gradient(180deg, #0f2c59 0%, #15803d 100%);
+      border-color: #eab308;
+      box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.4), 0 6px 16px rgba(15, 44, 89, 0.3);
+    }
+
+    .milestone-bar.highlight-target {
+      opacity: 1 !important;
+      filter: none !important;
+      box-shadow: 0 0 0 4px #f59e0b, 0 8px 20px rgba(245, 158, 11, 0.45);
+    }
+
+    .milestone-vertical-text {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 0.86rem;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      text-align: center;
+      white-space: nowrap;
+      color: #f8fafc;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .milestone-req-badge {
+      writing-mode: horizontal-tb;
+      font-size: 0.6rem;
+      font-weight: 800;
+      background: #eab308;
+      color: #0f172a;
+      padding: 4px 3px;
+      border-radius: 6px;
+      text-align: center;
+      white-space: nowrap;
+      line-height: 1.15;
+      width: 100%;
+    }
+
+    /* BOTTOM SECTION: COMPETENCY LEGEND & GLOBAL PROGRESS */
+    .bottom-panels {
+      max-width: 1920px;
+      margin: 20px auto 0;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 1100px) {
+      .bottom-panels {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel-card {
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid var(--border-light);
+      padding: 20px 24px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+    }
+
+    .panel-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--ulagos-navy);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .legend-swatch {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      border: 1px solid rgba(15, 23, 42, 0.18);
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.35);
+    }
+
+    .legend-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .legend-name {
+      font-weight: 700;
+      font-size: 0.86rem;
+      color: #0f172a;
+    }
+
+    .legend-meta {
+      font-size: 0.75rem;
+      color: #475569;
+      margin-top: 2px;
+    }
+
+    /* PROGRESS BARS IN SUMMARY PANEL */
+    .progress-block {
+      margin-bottom: 16px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.86rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 14px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .progress-fill-approved {
+      background: linear-gradient(90deg, #16a34a, #22c55e);
+      height: 100%;
+      transition: width 0.35s ease;
+    }
+
+    .progress-fill-selected {
+      background: linear-gradient(90deg, #0284c7, #38bdf8);
+      height: 100%;
+      transition: width 0.35s ease;
+    }
+
+    .summary-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .kpi-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .kpi-box .kpi-num {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--ulagos-navy);
+    }
+
+    .kpi-box .kpi-lbl {
+      font-size: 0.73rem;
+      color: #475569;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- STICKY INSTITUTIONAL HEADER -->
+  <header class="app-header">
+    <div class="header-top">
+      <div class="brand-group">
+        <img class="brand-logo" src="data:image/jpeg;base64,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" alt="Logo ICINF Universidad de Los Lagos" />
+        <div class="brand-titles">
+          <h1>Ingeniería Civil en Informática</h1>
+          <p>Universidad de Los Lagos — Malla Curricular Interactiva, Planificador SCT y Convalidación DU416</p>
+        </div>
+      </div>
+
+      <!-- LIVE SCT & MILESTONE COUNTERS -->
+      <div class="dashboard-widgets">
+        <div class="stat-pill" id="widget-selected-sct">
+          <span class="stat-label">SCT Seleccionados (A Cursar)</span>
+          <div class="stat-value">
+            <span id="top-selected-sct">0</span>
+            <span class="stat-sub">/ 33 SCT máx. (<span id="top-selected-count">0</span> ramos)</span>
+          </div>
+        </div>
+
+        <div class="stat-pill">
+          <span class="stat-label">Avance SCT Aprobados</span>
+          <div class="stat-value">
+            <span id="top-approved-sct">0</span>
+            <span class="stat-sub">/ <span id="top-total-sct">300</span> SCT (<span id="top-approved-pct">0.0%</span>)</span>
+          </div>
+        </div>
+
+        <div class="stat-pill">
+          <span class="stat-label" id="top-lic-label">Licenciatura (Sem. 1 al 8)</span>
+          <div class="stat-value">
+            <span id="top-licenciatura-status" style="font-size:0.9rem;color:#fde047;">Pendiente (0/48)</span>
+          </div>
+        </div>
+
+        <div class="stat-pill">
+          <span class="stat-label">Título Profesional (Plan)</span>
+          <div class="stat-value">
+            <span id="top-titulo-status" style="font-size:0.9rem;color:#fde047;">Pendiente (0/56)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONVALIDATION & BACKUP EXPORT / IMPORT CONTROLS -->
+      <div class="header-actions">
+        <label class="btn btn-convalidar" for="input-convalidar-du416" title="Subir archivo JSON de ramos aprobados en malla antigua DU416 (ej. Aprobados_du416.json) para convalidar automáticamente">
+          🔄 Convalidar DU416 (.json)
+        </label>
+        <input type="file" id="input-convalidar-du416" accept=".json,application/json" style="display:none;" />
+
+        <button class="btn btn-primary" id="btn-export" title="Descargar archivo JSON con tus asignaturas seleccionadas y aprobadas">
+          ⬇ Guardar Respaldo (.json)
+        </button>
+        <label class="btn btn-secondary" for="input-import" title="Cargar archivo JSON de respaldo previamente guardado (también soporta archivo DU416)">
+          ⬆ Cargar Respaldo
+        </label>
+        <input type="file" id="input-import" accept=".json,application/json" style="display:none;" />
+        <button class="btn btn-danger" id="btn-reset" title="Limpiar todas las selecciones, convalidaciones y aprobaciones">
+          ↺ Reiniciar
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- WARNING BANNER WHEN SELECTED SCT > 33 -->
+  <div class="sct-alert-banner" id="sct-warning-banner" role="alert">
+    <span>⚠️ <strong>¡Advertencia de Sobrecarga Académica!</strong> Has seleccionado <span id="banner-sct-val">0</span> créditos SCT para cursar, superando el límite máximo de <strong>33 SCT</strong> por semestre.</span>
+  </div>
+
+  <!-- CONVALIDATION RESULT BANNER -->
+  <div class="conv-summary-banner" id="conv-summary-banner">
+    <div class="conv-summary-box">
+      <span id="conv-summary-text"></span>
+      <button type="button" class="sem-quick-btn" id="btn-close-conv-banner">✕ Cerrar aviso</button>
+    </div>
+  </div>
+
+  <!-- SEMESTER SELECTION BAR (PAR vs IMPAR) -->
+  <section class="semester-selector-bar">
+    <div class="selector-card">
+      <div class="selector-prompt">
+        <span class="selector-prompt-badge">Planificar Inscripción</span>
+        <span>¿Qué semestre deseas cursar? Selecciona para mostrar las asignaturas que se dictarán según tu avance:</span>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+        <div class="period-btn-group" role="group" aria-label="Selector de semestre a cursar">
+          <button type="button" class="period-btn active" id="btn-period-I" data-period="I">
+            📅 Semestre Impar (I + A)
+            <span class="count-pill" id="count-period-I">0 disp.</span>
+          </button>
+          <button type="button" class="period-btn" id="btn-period-P" data-period="P">
+            📅 Semestre Par (P + A)
+            <span class="count-pill" id="count-period-P">0 disp.</span>
+          </button>
+          <button type="button" class="period-btn" id="btn-period-ALL" data-period="ALL" title="Ver todos los ramos con prerrequisito cumplido sin filtrar por semestre Par/Impar">
+            👁️ Todos (P, I, A)
+            <span class="count-pill" id="count-period-ALL">0 disp.</span>
+          </button>
+        </div>
+
+        <div class="licenciatura-config-inline" title="Requisito de Licenciatura: aprobar todos los cursos desde el 1° hasta el 8° semestre (48 asignaturas)">
+          <label for="select-lic-min">Req. Licenciatura (1° a 8° Sem.):</label>
+          <select id="select-lic-min">
+            <option value="48" selected>48 de 48 cursos (Sem. 1 al 8)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTION GUIDE & CONTROLS -->
+  <section class="toolbar-guide">
+    <div class="guide-items">
+      <span class="guide-chip">🖱️ <strong>Pasar el mouse:</strong> Ver líneas hacia asignaturas que abre</span>
+      <span>•</span>
+      <span class="guide-chip"><span class="guide-dot" style="background:#0284c7;"></span> <strong>1 Clic:</strong> Seleccionar para cursar en el semestre elegido</span>
+      <span>•</span>
+      <span class="guide-chip"><span class="guide-dot" style="background:#15803d;"></span> <strong>2 Clics (o Doble Clic):</strong> Tarjar como Aprobada y desbloquear previaturas</span>
+      <span>•</span>
+      <span class="guide-chip">🔄 <strong>Convalidar DU416:</strong> Sube tu archivo <code>Aprobados_du416.json</code></span>
+    </div>
+
+    <div class="filter-controls">
+      <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-weight:600;color:#334155;">
+        <input type="checkbox" id="chk-show-all-lines" />
+        Mostrar líneas de ramos aprobados permanentemente
+      </label>
+    </div>
+  </section>
+
+  <!-- CURRICULUM MATRIX BOARD -->
+  <main class="malla-wrapper" id="malla-wrapper">
+    <div class="malla-board" id="malla-board">
+      <svg id="connector-svg"></svg>
+      <!-- Dynamic Columns Injected by JS -->
+    </div>
+  </main>
+
+  <!-- FOOTER PANELS: COMPETENCY LEGEND & SCT PROGRESS COUNTER -->
+  <section class="bottom-panels">
+    <!-- COMPETENCY COLOR LEGEND -->
+    <div class="panel-card">
+      <div class="panel-title">
+        <span>🎨 Leyenda de Colores y Competencias (ICINF)</span>
+        <span style="font-size:0.78rem;color:#64748b;font-weight:600;">Asociación por área formativa</span>
+      </div>
+      <div class="legend-grid" id="legend-container">
+        <!-- Populated dynamically from colors_ICINF -->
+      </div>
+    </div>
+
+    <!-- SCT PROGRESS & SUMMARY PANEL -->
+    <div class="panel-card">
+      <div class="panel-title">
+        <span>📊 Avance Curricular y Contador de Créditos SCT</span>
+        <span id="summary-status-badge" style="font-size:0.78rem;background:#e2e8f0;padding:3px 9px;border-radius:999px;color:#1e293b;">En progreso</span>
+      </div>
+
+      <div class="progress-block">
+        <div class="progress-header">
+          <span>Avance de Créditos SCT Aprobados vs. Total Carrera</span>
+          <span id="bottom-progress-label">0 / 300 SCT (0.0%)</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill-approved" id="bar-approved" style="width: 0%;"></div>
+          <div class="progress-fill-selected" id="bar-selected" style="width: 0%;"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.74rem;color:#64748b;margin-top:5px;font-weight:600;">
+          <span>🟢 Aprobados: <strong id="lbl-bar-approved">0 SCT</strong></span>
+          <span>🔵 Seleccionados para cursar: <strong id="lbl-bar-selected">0 SCT</strong> (Máx. sugerido: 33 SCT)</span>
+          <span>⚪ Pendientes: <strong id="lbl-bar-pending">300 SCT</strong></span>
+        </div>
+      </div>
+
+      <div class="summary-kpi-grid">
+        <div class="kpi-box">
+          <div class="kpi-num" id="kpi-approved-courses">0 / 56</div>
+          <div class="kpi-lbl">Asignaturas Aprobadas (Req. Título: 56)</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-num" id="kpi-selected-hours">0 hrs</div>
+          <div class="kpi-lbl">Horas Seleccionadas (<span id="kpi-hd-hta-detail">0 HD + 0 HTA</span>)</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-num" id="kpi-unlocked-courses">0 / 56</div>
+          <div class="kpi-lbl">Asignaturas Ofertables en Semestre Elegido</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast-notice" id="toast-notice"></div>
+
+  <script>
+    // ============================================================================
+    // 1. DATOS DEL PLAN CURRICULAR Y COLORES DE COMPETENCIAS (data_ICINF / colors_ICINF)
+    // Estructura por asignatura:
+    // [0: Nombre, 1: Código, 2: Horas Docencia Directa (HD), 3: Horas Trabajo Autónomo (HTA),
+    //  4: Créditos SCT, 5: Sigla Competencia, 6: Lista Prerrequisitos, 7: Semestre Dictación (P/I/A)]
+    // ============================================================================
+    const DATA_ICINF = {
+	"s1": [
+		["Cálculo I","s11",6,4,6,"CI",[],"A"],
+		["Álgebra I","s12",6,4,6,"CI",[],"I"],
+		["Taller de Introducción a la Ingeniería","s13",4,8,8,"CI",[],"I"],
+		["Programación","s14",6,5,7,"CE1AI",[],"I"],
+		["Comunicación","s15",2,3,3,"CFI",[],"I"]
+	],
+	"s2": [
+		["Cálculo II","S21",6,4,6,"CI",["s11"],"A"],
+		["Álgebra II","S22",6,4,6,"CI",["s12"],"P"],
+		["Física Mecánica","S23",6,4,6,"CI",[],"P"],
+		["Programación Avanzada","S24",4,5,6,"CE1AI",["s14"],"P"],
+		["Química","S25",2,4,4,"CI",[],"A"],
+		["Ciudadanía","S26",2,1,2,"CFI",[],"P"]
+	],
+	"s3": [
+	["Cálculo Multivariable","S31",5,5,6,"CI",["S21"],"A"],
+	["Estructuras Discretas","S32",3,5,5,"CI",["s12"],"I"],
+	["Electromagnetismo","S33",4,5,6,"CI",["S21"],"I"],
+	["Estructuras de Datos","S34",4,5,6,"CE1AI",["S24"],"I"],
+	["Economía","S35",4,3,4,"CE2PI",[],"A"],
+	["Inglés I","S36",2,3,3,"CFI",[],"I"]
+	],
+	"s4": [
+	["Ecuaciones Diferenciales","S41",5,5,6,"CI",["S31"],"A"],
+	["Estadística y Probabilidad","S42",4,4,5,"CI",["S21"],"P"],
+	["Ópticas y Ondas","S43",4,6,6,"CI",["S33"],"P"],
+	["Bases de Datos","S44",6,6,8,"CE1AI",[],"P"],
+	["Electivo de área de conocimiento","S45",2,1,2,"ELEC",[],"A"],
+	["Inglés II","S46",2,3,3,"CFI",["S36"],"P"]
+	],
+	"s5": [
+	["Cálculo Numérico","S51",4,4,5,"CI",["S41"],"I"],
+	["Sistemas Digitales","S52",4,4,5,"CE3TI",["S33"],"I"],
+	["Tecnologías Frontend","S53",4,5,6,"CE1AI",["S44"],"I"],
+	["Big Data","S54",4,6,6,"CE1AI",["S44"],"I"],
+	["Teoría de Automatas","S55",4,4,5,"CE1AI",["S32"],"I"],
+	["Inglés III","S56",2,3,3,"CFI",["S46"],"I"]
+	],
+	"s6": [
+	["Análisis y diseño de Algoritmos","S61",3,4,4,"CE1AI",[],"P"],
+	["Electivo Formación Integral","S62",2,1,2,"CFI",[],"P"],
+	["Tecnologías Backend (ULAB 1)","S63",4,5,6,"CE1AI",["S53"],"P"],
+	["Arquitectura de Computadores","S64",4,4,5,"CE3TI",[],"P"],
+	["Inteligencia Artificial","S65",5,3,5,"CE1AI",["S55"],"P"],
+	["Inglés para Ingeniería","S66",2,3,3,"CI",["S56"],"P"],
+	["Práctica Intermedia","S67",0,8,5,"ELEC",["S44"],"A"]
+	],
+	"s7": [
+["Investigación Operativa","S71",4,4,5,"CE2PI",["S22"],"I"],
+["Ingeniería de Software","S72",4,6,6,"CE2PI",["S44"],"I"],
+["Sistemas Operativos","S73",4,4,5,"CE3TI",[],"I"],
+["Redes y Comunicación","S74",6,3,6,"CE3TI",["S64"],"I"],
+["Deep Learning","S75",4,4,5,"CE1AI",["S65"],"I"],
+["Inglés Técnico para Informática","S76",2,3,3,"CI",["S66"],"I"]
+	],
+	"s8": [
+["Tecnologías en la Nube","S81",4,7,7,"CE3TI",["S74"],"P"],		
+["Taller de Ingeniería de Software (ULAB 2)","S82",2,4,4,"CE1AI",["S72"],"P"],		
+["Sistemas de información","S83",4,6,6,"CE2PI",[],"P"],		
+["Seguridad Informática","S84",4,7,7,"CE3TI",["S74"],"P"],		
+["Electivo de área de conocimiento","S85",2,1,2,"ELEC",[],"A"],		
+["Formulación y Evaluación de Proyectos","S86",4,3,4,"CE2PI",[],"P"]
+	],
+	"s9": [
+		["Práctica Profesional","S91",0,20,13,"ELEC",["S81","S82", "S83","S84","S85","S86"],"A"],
+		["Taller de Proyectos Informáticos (ULAB 3)","S92",2,4,4,"ELEC",["S63"],"I"],
+		["Electivo Profesional","S93",4,3,4,"ELEC",[],"I"],
+		["Electivo Profesional","S94",4,3,4,"ELEC",[],"I"],
+		["Anteproyecto de Título","S95",3,5,5,"ELEC",["S81","S82", "S83","S84","S85","S86"],"I"]
+	],
+	"s10": [
+["Electivo Profesional","S101",4,3,4,"ELEC",[],"P"],		
+["Electivo Profesional","S102",4,3,4,"ELEC",[],"P"],	
+["Proyecto de Título","S103",3,31,22,"ELEC",["S95"],"P"]
+	]
+}
+
+    const COLORS_ICINF = {"CE1AI": ["#FFA488", "Aplicaciones Informáticas"], "CE2PI": ["#ACDB90", "Proyectos Informáticos"], "CE3TI": ["#FADF8D", "Tecnologías de Información"], "CI": ["#605BF5", "Ciencias de la Ingeniería"], "CFI": ["#BDBDC7", "Centro de Formación Integral"], "ELEC": ["#DCA8E2", "Electivos/Prácticas"]};
+    const MAX_SCT_SEMESTER = 33;
+
+    // ============================================================================
+    // 2. TABLA INTERNA DE CONVALIDACIONES: MALLA DU416 -> MALLA NUEVA (2027)
+    // Definida como `const` para permitir modificar o actualizar equivalencias
+    // directamente en el código a futuro.
+    // Cada objeto relaciona el código `"malla nueva"` con el arreglo `"DU416"` de
+    // códigos de asignaturas de la malla DU416 que la convalidan.
+    // ============================================================================
+    const CONVALIDACION_MALLA_2027 = [
+      {
+            "malla nueva": "S11",
+            "DU416": [
+                  "CBI03"
+            ]
+      },
+      {
+            "malla nueva": "S12",
+            "DU416": [
+                  "CBI04"
+            ]
+      },
+      {
+            "malla nueva": "S13",
+            "DU416": [
+                  "FDICI01"
+            ]
+      },
+      {
+            "malla nueva": "S14",
+            "DU416": [
+                  "FDCI02"
+            ]
+      },
+      {
+            "malla nueva": "S15",
+            "DU416": [
+                  "FIN07"
+            ]
+      },
+      {
+            "malla nueva": "S21",
+            "DU416": [
+                  "CBI06"
+            ]
+      },
+      {
+            "malla nueva": "S22",
+            "DU416": [
+                  "CBI07"
+            ]
+      },
+      {
+            "malla nueva": "S23",
+            "DU416": [
+                  "CBI08"
+            ]
+      },
+      {
+            "malla nueva": "S24",
+            "DU416": [
+                  "FDICI02"
+            ]
+      },
+      {
+            "malla nueva": "S25",
+            "DU416": [
+                  "CBI02"
+            ]
+      },
+      {
+            "malla nueva": "S26",
+            "DU416": [
+                  "FIN02"
+            ]
+      },
+      {
+            "malla nueva": "S31",
+            "DU416": [
+                  "CBI09"
+            ]
+      },
+      {
+            "malla nueva": "S32",
+            "DU416": [
+                  "FDICI05"
+            ]
+      },
+      {
+            "malla nueva": "S33",
+            "DU416": [
+                  "CBI11"
+            ]
+      },
+      {
+            "malla nueva": "S34",
+            "DU416": [
+                  "FDICI03"
+            ]
+      },
+      {
+            "malla nueva": "S35",
+            "DU416": [
+                  "CSI01"
+            ]
+      },
+      {
+            "malla nueva": "S36",
+            "DU416": [
+                  "FIN03"
+            ]
+      },
+      {
+            "malla nueva": "S41",
+            "DU416": [
+                  "CBI12"
+            ]
+      },
+      {
+            "malla nueva": "S42",
+            "DU416": [
+                  "CBI10"
+            ]
+      },
+      {
+            "malla nueva": "S43",
+            "DU416": [
+                  "CBI14"
+            ]
+      },
+      {
+            "malla nueva": "S44",
+            "DU416": [
+                  "FDICI09"
+            ]
+      },
+      {
+            "malla nueva": "S45",
+            "DU416": [
+                  "FDICI06",
+                  "CBI01"
+            ]
+      },
+      {
+            "malla nueva": "S46",
+            "DU416": [
+                  "FIN04"
+            ]
+      },
+      {
+            "malla nueva": "S51",
+            "DU416": [
+                  "CBI13"
+            ]
+      },
+      {
+            "malla nueva": "S52",
+            "DU416": [
+                  "FDCI13"
+            ]
+      },
+      {
+            "malla nueva": "S53",
+            "DU416": [
+                  "FDICI11"
+            ]
+      },
+      {
+            "malla nueva": "S54",
+            "DU416": [
+                  "FDICI10"
+            ]
+      },
+      {
+            "malla nueva": "S55",
+            "DU416": [
+                  "FDICI07"
+            ]
+      },
+      {
+            "malla nueva": "S56",
+            "DU416": [
+                  "FIN05"
+            ]
+      },
+      {
+            "malla nueva": "S61",
+            "DU416": [
+                  "FDICI08"
+            ]
+      },
+      {
+            "malla nueva": "S62",
+            "DU416": [
+                  "EFIN"
+            ]
+      },
+      {
+            "malla nueva": "S63",
+            "DU416": [
+                  "FDICI11"
+            ]
+      },
+      {
+            "malla nueva": "S64",
+            "DU416": [
+                  "FDICI13"
+            ]
+      },
+      {
+            "malla nueva": "S65",
+            "DU416": [
+                  "FDICI19"
+            ]
+      },
+      {
+            "malla nueva": "S66",
+            "DU416": [
+                  "FIN06"
+            ]
+      },
+      {
+            "malla nueva": "S67",
+            "DU416": [
+                  "FDICI15"
+            ]
+      },
+      {
+            "malla nueva": "S71",
+            "DU416": [
+                  "FDCI09"
+            ]
+      },
+      {
+            "malla nueva": "S72",
+            "DU416": [
+                  "FDICI17"
+            ]
+      },
+      {
+            "malla nueva": "S73",
+            "DU416": [
+                  "FDICI18"
+            ]
+      },
+      {
+            "malla nueva": "S74",
+            "DU416": [
+                  "FDICI21"
+            ]
+      },
+      {
+            "malla nueva": "S75",
+            "DU416": [
+                  "EFDI-135"
+            ]
+      },
+      {
+            "malla nueva": "S76",
+            "DU416": [
+                  "FDICI14"
+            ]
+      },
+      {
+            "malla nueva": "S81",
+            "DU416": [
+                  "FDICI12",
+                  "FDICI25"
+            ]
+      },
+      {
+            "malla nueva": "S82",
+            "DU416": [
+                  "FDICI20"
+            ]
+      },
+      {
+            "malla nueva": "S83",
+            "DU416": [
+                  "FDCI15"
+            ]
+      },
+      {
+            "malla nueva": "S84",
+            "DU416": [
+                  "FDICI26"
+            ]
+      },
+      {
+            "malla nueva": "S85",
+            "DU416": [
+                  "FDICI04",
+                  "CBI05"
+            ]
+      },
+      {
+            "malla nueva": "S86",
+            "DU416": [
+                  "FDCI16"
+            ]
+      },
+      {
+            "malla nueva": "S91",
+            "DU416": [
+                  "FDICI28"
+            ]
+      },
+      {
+            "malla nueva": "S92",
+            "DU416": [
+                  "FDICI23"
+            ]
+      },
+      {
+            "malla nueva": "S93",
+            "DU416": [
+                  "EFDI01"
+            ]
+      },
+      {
+            "malla nueva": "S94",
+            "DU416": [
+                  "EFDI02"
+            ]
+      },
+      {
+            "malla nueva": "S95",
+            "DU416": [
+                  "FDICI24"
+            ]
+      },
+      {
+            "malla nueva": "S101",
+            "DU416": [
+                  "EFDI03"
+            ]
+      },
+      {
+            "malla nueva": "S102",
+            "DU416": [
+                  "EFDI04"
+            ]
+      },
+      {
+            "malla nueva": "S103",
+            "DU416": [
+                  "FDICI27"
+            ]
+      }
+];
+
+    // ============================================================================
+    // 3. CONFIGURACIÓN DEL PRERREQUISITO DE LICENCIATURA EN CIENCIAS DE LA INGENIERÍA
+    // Exige haber aprobado TODOS los cursos desde el 1er hasta el 8vo semestre
+    // (48 asignaturas en total: semestres s1 a s8).
+    // ============================================================================
+    const LICENCIATURA_SEMESTERS = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8"];
+    const LICENCIATURA_ALL_COURSES_UP_TO_S8 = LICENCIATURA_SEMESTERS.flatMap(
+      semKey => (DATA_ICINF[semKey] || []).map(item => String(item[1]).toUpperCase())
+    );
+    const LICENCIATURA_CONFIG = {
+      requiredCourses: LICENCIATURA_ALL_COURSES_UP_TO_S8, // Los 48 cursos desde Semestre 1 hasta Semestre 8
+      connectorCourses: ["S81", "S82", "S83", "S84", "S85", "S86"], // Cursos de cierre de 8vo semestre para trazado visual de líneas
+      minApprovedCount: LICENCIATURA_ALL_COURSES_UP_TO_S8.length // 48 cursos aprobados
+    };
+
+    // Mapa auxiliar: código Malla Nueva (en mayúsculas) -> lista de códigos DU416
+    const du416ByNewCourseId = {};
+    CONVALIDACION_MALLA_2027.forEach(entry => {
+      const newCode = String(entry["malla nueva"] || "").trim().toUpperCase();
+      const oldCodes = Array.isArray(entry["DU416"])
+        ? entry["DU416"].map(c => String(c).trim().toUpperCase())
+        : [];
+      if (newCode) {
+        du416ByNewCourseId[newCode] = oldCodes;
+      }
+    });
+
+    // Normalización de asignaturas y construcción del grafo de previaturas
+    const coursesById = {}; // ID en mayúsculas -> objeto asignatura
+    const opensGraph = {};  // ID en mayúsculas -> lista de asignaturas que abre
+    let totalCareerSCT = 0;
+    let totalCareerCourses = 0;
+
+    const semesterOrder = ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10"];
+
+    semesterOrder.forEach((semKey, idx) => {
+      const semNum = idx + 1;
+      const rawList = DATA_ICINF[semKey] || [];
+      rawList.forEach(item => {
+        const [name, rawCode, hd, hta, sct, comp, prereqs, period] = item;
+        const id = rawCode.toUpperCase();
+        const normPrereqs = (prereqs || []).map(p => p.toUpperCase());
+        coursesById[id] = {
+          id,
+          displayCode: rawCode,
+          name,
+          hd: Number(hd),
+          hta: Number(hta),
+          sct: Number(sct),
+          comp,
+          prereqs: normPrereqs,
+          rawPrereqs: prereqs || [],
+          period,
+          semKey,
+          semNum,
+          du416Codes: du416ByNewCourseId[id] || []
+        };
+        if (!opensGraph[id]) opensGraph[id] = [];
+        totalCareerSCT += Number(sct);
+        totalCareerCourses += 1;
+      });
+    });
+
+    Object.values(coursesById).forEach(course => {
+      course.prereqs.forEach(preId => {
+        if (!opensGraph[preId]) opensGraph[preId] = [];
+        opensGraph[preId].push(course.id);
+      });
+    });
+
+    // Estado de cada asignatura: 'none' | 'selected' | 'approved'
+    const courseState = {};
+    // Registro de si una asignatura fue aprobada por convalidación DU416
+    const convalidatedFromDU416 = {};
+    Object.keys(coursesById).forEach(id => {
+      courseState[id] = 'none';
+      convalidatedFromDU416[id] = false;
+    });
+
+    // Semestre seleccionado para cursar/inscribir: 'I' (Impar), 'P' (Par), o 'ALL' (Ambos)
+    let activeSemesterPeriod = 'I';
+    let hoveredCourseId = null; // Puede ser un ID de curso, 'MILESTONE_LIC', o 'MILESTONE_TIT'
+    let recentlyUnlockedIds = new Set();
+    let toastTimeout = null;
+
+    function showToast(msg) {
+      const el = document.getElementById('toast-notice');
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.add('show');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        el.classList.remove('show');
+      }, 3800);
+    }
+
+    function isDarkColor(hex) {
+      const clean = hex.replace('#', '');
+      const r = parseInt(clean.substring(0, 2), 16);
+      const g = parseInt(clean.substring(2, 4), 16);
+      const b = parseInt(clean.substring(4, 6), 16);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      return luminance < 0.56;
+    }
+
+    function formatPeriodLabel(period) {
+      if (period === 'A') return 'Ambos (A)';
+      if (period === 'I') return 'Impar (I)';
+      if (period === 'P') return 'Par (P)';
+      return period;
+    }
+
+    // Verifica si la asignatura cumple todos sus prerrequisitos académicos
+    function hasPrerequisitesMet(id) {
+      const course = coursesById[id];
+      if (!course) return false;
+      if (course.prereqs.length === 0) return true;
+      return course.prereqs.every(preId => courseState[preId] === 'approved');
+    }
+
+    // Verifica si la asignatura se dicta en el semestre seleccionado por el estudiante (P, I, o ALL)
+    function isOfferedInPeriod(id, periodMode = activeSemesterPeriod) {
+      const course = coursesById[id];
+      if (!course) return false;
+      if (periodMode === 'ALL') return true;
+      return course.period === 'A' || course.period === periodMode;
+    }
+
+    // Una asignatura se puede cursar en el semestre actual si cumple prerrequisitos Y se dicta en el semestre elegido
+    function isCourseCursableNow(id, periodMode = activeSemesterPeriod) {
+      return hasPrerequisitesMet(id) && isOfferedInPeriod(id, periodMode);
+    }
+
+    // ============================================================================
+    // FUNCIÓN DE CONVALIDACIÓN DESDE ARCHIVO DEL ESTUDIANTE (ej. Aprobados_du416.json)
+    // Cruza el listado `"DU416"` entregado por el estudiante con la constante
+    // `CONVALIDACION_MALLA_2027` y marca como aprobados los cursos convalidables.
+    // Si una asignatura de malla nueva lista códigos en `DU416`, se convalida cuando
+    // el estudiante posee alguno de los códigos equivalentes (o todos si corresponde).
+    // ============================================================================
+    function applyDU416Convalidation(studentJsonData) {
+      const rawApprovedList = Array.isArray(studentJsonData)
+        ? studentJsonData
+        : (Array.isArray(studentJsonData.DU416) ? studentJsonData.DU416 : []);
+
+      const approvedDU416Set = new Set(
+        rawApprovedList.map(code => String(code).trim().toUpperCase()).filter(Boolean)
+      );
+
+      if (approvedDU416Set.size === 0) {
+        alert('El archivo no contiene códigos válidos dentro de la propiedad "DU416".');
+        return;
+      }
+
+      const prevUnlocked = new Set(Object.keys(coursesById).filter(id => isCourseCursableNow(id)));
+      const convalidatedNewCourses = [];
+
+      CONVALIDACION_MALLA_2027.forEach(rule => {
+        const targetNewId = String(rule["malla nueva"] || "").trim().toUpperCase();
+        const requiredOldCodes = Array.isArray(rule["DU416"])
+          ? rule["DU416"].map(c => String(c).trim().toUpperCase()).filter(Boolean)
+          : [];
+
+        if (!targetNewId || !coursesById[targetNewId] || requiredOldCodes.length === 0) return;
+
+        // Se convalida si los códigos requeridos de DU416 para esta asignatura están en el listado aprobado del estudiante
+        const canConvalidate = requiredOldCodes.every(oldCode => approvedDU416Set.has(oldCode)) ||
+                               requiredOldCodes.some(oldCode => approvedDU416Set.has(oldCode));
+
+        if (canConvalidate) {
+          courseState[targetNewId] = 'approved';
+          convalidatedFromDU416[targetNewId] = true;
+          convalidatedNewCourses.push(targetNewId);
+        }
+      });
+
+      detectNewlyUnlocked(prevUnlocked);
+      saveToLocalStorage();
+      updateUI();
+
+      const totalSCTConvalidated = convalidatedNewCourses.reduce(
+        (acc, id) => acc + (coursesById[id] ? coursesById[id].sct : 0),
+        0
+      );
+
+      const banner = document.getElementById('conv-summary-banner');
+      const bannerTxt = document.getElementById('conv-summary-text');
+      if (banner && bannerTxt) {
+        bannerTxt.innerHTML = `✅ <strong>Convalidación DU416 aplicada:</strong> Se leyeron <strong>${approvedDU416Set.size}</strong> códigos aprobados de la malla DU416 y se convalidaron <strong>${convalidatedNewCourses.length} de ${totalCareerCourses}</strong> asignaturas en la malla nueva (<strong>${totalSCTConvalidated} SCT</strong> aprobados).`;
+        banner.classList.add('visible');
+      }
+
+      showToast(`✓ Convalidación DU416: ${convalidatedNewCourses.length} asignaturas aprobadas (${totalSCTConvalidated} SCT).`);
+    }
+
+    // Evalúa cumplimiento de la Licenciatura en Ciencias de la Ingeniería
+    function getLicenciaturaProgress() {
+      const reqList = LICENCIATURA_CONFIG.requiredCourses.map(c => c.toUpperCase()).filter(c => coursesById[c]);
+      const minRequired = Math.max(1, Math.min(Number(LICENCIATURA_CONFIG.minApprovedCount) || reqList.length, reqList.length));
+      const approvedReq = reqList.filter(id => courseState[id] === 'approved');
+      return {
+        reqList,
+        minRequired,
+        approvedCount: approvedReq.length,
+        unlocked: approvedReq.length >= minRequired
+      };
+    }
+
+    // Evalúa cumplimiento del Título de Ingeniería Civil en Informática (todos los cursos del plan aprobados)
+    function getTituloProgress() {
+      const approvedAll = Object.keys(coursesById).filter(id => courseState[id] === 'approved').length;
+      return {
+        approvedCount: approvedAll,
+        totalRequired: totalCareerCourses,
+        unlocked: approvedAll === totalCareerCourses && totalCareerCourses > 0
+      };
+    }
+
+    // Construye las columnas de la matriz curricular por Año y Semestre
+    function buildMatrixDOM() {
+      const board = document.getElementById('malla-board');
+      const svg = document.getElementById('connector-svg');
+      board.innerHTML = '';
+      board.appendChild(svg);
+
+      const years = [
+        { year: 1, sems: ['s1', 's2'] },
+        { year: 2, sems: ['s3', 's4'] },
+        { year: 3, sems: ['s5', 's6'] },
+        { year: 4, sems: ['s7', 's8'] },
+        { year: 5, sems: ['s9', 's10'] }
+      ];
+
+      years.forEach((yrObj) => {
+        const yearGroup = document.createElement('div');
+        yearGroup.className = 'year-group';
+
+        const yearHeader = document.createElement('div');
+        yearHeader.className = 'year-header';
+        yearHeader.innerHTML = `
+          <span>Año ${yrObj.year}</span>
+          <span class="year-badge">Semestres ${(yrObj.year - 1) * 2 + 1} y ${yrObj.year * 2}</span>
+        `;
+        yearGroup.appendChild(yearHeader);
+
+        const semsRow = document.createElement('div');
+        semsRow.className = 'semesters-row';
+
+        yrObj.sems.forEach(semKey => {
+          const semNum = parseInt(semKey.replace('s', ''), 10);
+          const semCourses = (DATA_ICINF[semKey] || []).map(c => coursesById[c[1].toUpperCase()]);
+
+          // Totales por semestre: Horas de Docencia Directa (DD), Horas de Trabajo Autónomo (TA) y SCT
+          const totalHD = semCourses.reduce((acc, c) => acc + c.hd, 0);
+          const totalHTA = semCourses.reduce((acc, c) => acc + c.hta, 0);
+          const totalSCT = semCourses.reduce((acc, c) => acc + c.sct, 0);
+
+          const semCol = document.createElement('div');
+          semCol.className = 'semester-col';
+          semCol.dataset.sem = semKey;
+
+          const semHeader = document.createElement('div');
+          semHeader.className = 'sem-header';
+          semHeader.innerHTML = `
+            <div class="sem-title-row">
+              <span>Semestre ${semNum} (${semNum % 2 === 1 ? 'I' : 'P'})</span>
+              <button class="sem-quick-btn" data-sem="${semKey}" title="Aprobar o desmarcar todas las asignaturas del Semestre ${semNum}">✓ Sem</button>
+            </div>
+            <div class="sem-counters" title="Totales del Semestre ${semNum}: Horas de Docencia Directa (${totalHD}h), Trabajo Autónomo (${totalHTA}h) y Créditos SCT (${totalSCT} SCT)">
+              <div class="sem-counter-box">
+                <strong>${totalHD}h</strong>
+                <span>DD</span>
+              </div>
+              <div class="sem-counter-box">
+                <strong>${totalHTA}h</strong>
+                <span>TA</span>
+              </div>
+              <div class="sem-counter-box">
+                <strong>${totalSCT}</strong>
+                <span>SCT</span>
+              </div>
+            </div>
+          `;
+          semCol.appendChild(semHeader);
+
+          const stack = document.createElement('div');
+          stack.className = 'courses-stack';
+
+          semCourses.forEach(course => {
+            const compInfo = COLORS_ICINF[course.comp] || ['#cbd5e1', course.comp];
+            const bgColor = compInfo[0];
+            const compFullName = compInfo[1];
+            const textModeClass = isDarkColor(bgColor) ? 'light-text' : 'dark-text';
+            const prereqStr = course.rawPrereqs.length > 0 ? course.rawPrereqs.join(', ') : 'Sin req.';
+            const du416Str = course.du416Codes.length > 0 ? course.du416Codes.join('/') : '—';
+
+            const card = document.createElement('div');
+            card.className = `course-card ${textModeClass}`;
+            card.id = `card-${course.id}`;
+            card.dataset.courseId = course.id;
+            card.style.backgroundColor = bgColor;
+            card.title = `${course.name} (${course.displayCode})\nCompetencia: ${compFullName} (${course.comp})\nDocencia Directa: ${course.hd} hrs | Trabajo Autónomo: ${course.hta} hrs | Créditos: ${course.sct} SCT\nSe dicta en semestre: ${formatPeriodLabel(course.period)}\nPrerrequisito: ${prereqStr}\nEquivalencia DU416: ${du416Str}`;
+
+            card.innerHTML = `
+              <div>
+                <div class="card-top">
+                  <span class="code-badge">${course.displayCode}</span>
+                  <div class="comp-period-group">
+                    <span class="comp-tag" title="${compFullName}">${course.comp}</span>
+                    <span class="period-tag" title="Se imparte en semestre: ${formatPeriodLabel(course.period)}">${course.period}</span>
+                  </div>
+                </div>
+                <div class="course-name">${course.name}</div>
+              </div>
+              <div>
+                <div class="card-metrics">
+                  <div title="Horas de Docencia Directa">HD: ${course.hd}</div>
+                  <div title="Horas de Trabajo Autónomo">HTA: ${course.hta}</div>
+                  <div title="Créditos SCT">${course.sct} SCT</div>
+                </div>
+                <div class="card-footer">
+                  <span class="prereq-text" title="Prerrequisito: ${prereqStr}">Req: ${prereqStr}</span>
+                  <span class="du416-text" title="Código equivalente DU416: ${du416Str}">DU416: ${du416Str}</span>
+                </div>
+                <div class="status-ribbon" id="ribbon-${course.id}"></div>
+              </div>
+            `;
+
+            setupCardInteractions(card, course.id);
+            stack.appendChild(card);
+          });
+
+          semCol.appendChild(stack);
+          semsRow.appendChild(semCol);
+        });
+
+        yearGroup.appendChild(semsRow);
+        board.appendChild(yearGroup);
+
+        // Entre el Semestre 8 y 9: Línea vertical "Licenciatura en Ciencias de la Ingeniería"
+        if (yrObj.year === 4) {
+          const licBar = document.createElement('div');
+          licBar.className = 'milestone-bar locked-milestone';
+          licBar.id = 'milestone-licenciatura';
+          licBar.title = 'Hito Académico: Licenciatura en Ciencias de la Ingeniería (Prerrequisito: aprobar todos los cursos desde el 1° hasta el 8° semestre - 48 asignaturas)';
+          licBar.innerHTML = `
+            <div class="milestone-req-badge" id="lic-req-badge">Sem 1-8<br/>0/48</div>
+            <div class="milestone-vertical-text">Licenciatura en Ciencias de la Ingeniería</div>
+            <div class="milestone-req-badge" id="lic-status-icon">🔒</div>
+          `;
+          licBar.addEventListener('mouseenter', () => {
+            hoveredCourseId = 'MILESTONE_LIC';
+            updateUI();
+          });
+          licBar.addEventListener('mouseleave', () => {
+            hoveredCourseId = null;
+            updateUI();
+          });
+          board.appendChild(licBar);
+        }
+      });
+
+      // Después del Semestre 10: Línea vertical "Título de Ingeniería Civil en Informática"
+      const tituloBar = document.createElement('div');
+      tituloBar.className = 'milestone-bar locked-milestone';
+      tituloBar.id = 'milestone-titulo';
+      tituloBar.title = 'Meta Final: Título de Ingeniería Civil en Informática (Prerrequisito: aprobar los 56 cursos del plan curricular)';
+      tituloBar.innerHTML = `
+        <div class="milestone-req-badge" id="titulo-req-badge">Plan<br/>0/56</div>
+        <div class="milestone-vertical-text">Título de Ingeniería Civil en Informática</div>
+        <div class="milestone-req-badge" id="titulo-status-icon">🔒</div>
+      `;
+      tituloBar.addEventListener('mouseenter', () => {
+        hoveredCourseId = 'MILESTONE_TIT';
+        updateUI();
+      });
+      tituloBar.addEventListener('mouseleave', () => {
+        hoveredCourseId = null;
+        updateUI();
+      });
+      board.appendChild(tituloBar);
+
+      // Botón rápido para aprobar/desmarcar semestre completo
+      document.querySelectorAll('.sem-quick-btn[data-sem]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const semKey = btn.dataset.sem;
+          const semCourses = (DATA_ICINF[semKey] || []).map(c => c[1].toUpperCase());
+          const allApproved = semCourses.every(id => courseState[id] === 'approved');
+          const prevUnlocked = new Set(Object.keys(coursesById).filter(id => isCourseCursableNow(id)));
+          semCourses.forEach(id => {
+            courseState[id] = allApproved ? 'none' : 'approved';
+            if (allApproved) convalidatedFromDU416[id] = false;
+          });
+          detectNewlyUnlocked(prevUnlocked);
+          saveToLocalStorage();
+          updateUI();
+        });
+      });
+    }
+
+    // Configuración de eventos de mouse (hover, 1 clic = seleccionar para cursar, 2 clics / doble clic = aprobar)
+    function setupCardInteractions(card, courseId) {
+      let clickTimer = null;
+
+      card.addEventListener('mouseenter', () => {
+        hoveredCourseId = courseId;
+        updateUI();
+      });
+
+      card.addEventListener('mouseleave', () => {
+        if (hoveredCourseId === courseId) {
+          hoveredCourseId = null;
+          updateUI();
+        }
+      });
+
+      card.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (clickTimer !== null) {
+          clearTimeout(clickTimer);
+          clickTimer = null;
+          // Doble clic rápido: marca como Aprobada (tarjada) o desmarca si ya estaba aprobada
+          const prevUnlocked = new Set(Object.keys(coursesById).filter(id => isCourseCursableNow(id)));
+          const willApprove = courseState[courseId] !== 'approved';
+          courseState[courseId] = willApprove ? 'approved' : 'none';
+          if (!willApprove) convalidatedFromDU416[courseId] = false;
+          hoveredCourseId = courseId;
+          detectNewlyUnlocked(prevUnlocked);
+          saveToLocalStorage();
+          updateUI();
+          return;
+        }
+
+        clickTimer = setTimeout(() => {
+          clickTimer = null;
+          const prevUnlocked = new Set(Object.keys(coursesById).filter(id => isCourseCursableNow(id)));
+          const current = courseState[courseId];
+          const course = coursesById[courseId];
+
+          if (current === 'none') {
+            if (!isOfferedInPeriod(courseId)) {
+              const periodName = course.period === 'P' ? 'Semestre Par (P)' : 'Semestre Impar (I)';
+              showToast(`ℹ️ "${course.name}" solo se dicta en ${periodName}. Cambia el selector superior para inscribirla o haz 2 clics si ya la aprobaste.`);
+              return;
+            }
+            courseState[courseId] = 'selected';
+          } else if (current === 'selected') {
+            courseState[courseId] = 'approved';
+          } else {
+            courseState[courseId] = 'none';
+            convalidatedFromDU416[courseId] = false;
+          }
+          hoveredCourseId = courseId;
+          detectNewlyUnlocked(prevUnlocked);
+          saveToLocalStorage();
+          updateUI();
+        }, 210);
+      });
+    }
+
+    function detectNewlyUnlocked(prevUnlockedSet) {
+      recentlyUnlockedIds.clear();
+      Object.keys(coursesById).forEach(id => {
+        if (!prevUnlockedSet.has(id) && isCourseCursableNow(id)) {
+          recentlyUnlockedIds.add(id);
+        }
+      });
+    }
+
+    // Construye la leyenda inferior de competencias
+    function buildLegendDOM() {
+      const container = document.getElementById('legend-container');
+      container.innerHTML = '';
+
+      Object.entries(COLORS_ICINF).forEach(([compCode, [hexColor, compName]]) => {
+        const compCourses = Object.values(coursesById).filter(c => c.comp === compCode);
+        const compTotalSCT = compCourses.reduce((acc, c) => acc + c.sct, 0);
+        const textClass = isDarkColor(hexColor) ? 'light-text' : 'dark-text';
+
+        const item = document.createElement('div');
+        item.className = 'legend-item';
+        item.innerHTML = `
+          <div class="legend-swatch ${textClass}" style="background-color: ${hexColor};">
+            ${compCode}
+          </div>
+          <div class="legend-info">
+            <div class="legend-name">${compName}</div>
+            <div class="legend-meta">
+              <span>${compCourses.length} asignaturas</span> •
+              <strong id="legend-sct-${compCode}">0 / ${compTotalSCT} SCT</strong> aprobados
+            </div>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    // Dibuja líneas conectoras SVG hacia las asignaturas que abre y hacia la Licenciatura
+    function drawConnectors() {
+      const svg = document.getElementById('connector-svg');
+      const board = document.getElementById('malla-board');
+      if (!svg || !board) return;
+
+      svg.innerHTML = '';
+      const boardRect = board.getBoundingClientRect();
+
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      defs.innerHTML = `
+        <marker id="arrow-hover" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b" />
+        </marker>
+        <marker id="arrow-approved" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M 0 1 L 10 5 L 0 9 z" fill="#16a34a" />
+        </marker>
+      `;
+      svg.appendChild(defs);
+
+      const showAllApprovedLines = document.getElementById('chk-show-all-lines').checked;
+      const licReqSet = new Set(LICENCIATURA_CONFIG.connectorCourses.map(c => c.toUpperCase()));
+      const edges = [];
+
+      if (showAllApprovedLines) {
+        Object.keys(coursesById).forEach(srcId => {
+          if (courseState[srcId] === 'approved') {
+            (opensGraph[srcId] || []).forEach(destId => {
+              edges.push({ srcId, destId, type: 'approved' });
+            });
+            if (licReqSet.has(srcId)) {
+              edges.push({ srcId, destElementId: 'milestone-licenciatura', type: 'approved' });
+            }
+          }
+        });
+      }
+
+      if (hoveredCourseId === 'MILESTONE_LIC') {
+        licReqSet.forEach(srcId => {
+          edges.push({ srcId, destElementId: 'milestone-licenciatura', type: 'hover' });
+        });
+      } else if (hoveredCourseId && coursesById[hoveredCourseId]) {
+        const targets = opensGraph[hoveredCourseId] || [];
+        targets.forEach(destId => {
+          edges.push({ srcId: hoveredCourseId, destId, type: 'hover' });
+        });
+        if (licReqSet.has(hoveredCourseId)) {
+          edges.push({ srcId: hoveredCourseId, destElementId: 'milestone-licenciatura', type: 'hover' });
+        }
+      }
+
+      edges.forEach(edge => {
+        const srcEl = document.getElementById(`card-${edge.srcId}`);
+        const destEl = edge.destElementId
+          ? document.getElementById(edge.destElementId)
+          : document.getElementById(`card-${edge.destId}`);
+
+        if (!srcEl || !destEl) return;
+
+        const srcRect = srcEl.getBoundingClientRect();
+        const destRect = destEl.getBoundingClientRect();
+
+        const goingLeft = destRect.left < srcRect.left;
+        const x1 = goingLeft
+          ? srcRect.left - boardRect.left
+          : srcRect.right - boardRect.left;
+        const y1 = srcRect.top - boardRect.top + srcRect.height / 2;
+
+        const x2 = goingLeft
+          ? destRect.right - boardRect.left
+          : destRect.left - boardRect.left;
+        const y2 = destRect.top - boardRect.top + destRect.height / 2;
+
+        const dx = Math.max(Math.abs(x2 - x1) * 0.45, 32);
+        const c1x = goingLeft ? x1 - dx : x1 + dx;
+        const c2x = goingLeft ? x2 + dx : x2 - dx;
+
+        const pathData = `M ${x1} ${y1} C ${c1x} ${y1}, ${c2x} ${y2}, ${x2} ${y2}`;
+
+        if (edge.type === 'hover') {
+          const halo = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          halo.setAttribute('d', pathData);
+          halo.setAttribute('fill', 'none');
+          halo.setAttribute('stroke', 'rgba(15, 23, 42, 0.75)');
+          halo.setAttribute('stroke-width', '5.5');
+          halo.setAttribute('stroke-linecap', 'round');
+          svg.appendChild(halo);
+
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('d', pathData);
+          path.setAttribute('fill', 'none');
+          path.setAttribute('stroke', '#f59e0b');
+          path.setAttribute('stroke-width', '3');
+          path.setAttribute('stroke-linecap', 'round');
+          path.setAttribute('marker-end', 'url(#arrow-hover)');
+          svg.appendChild(path);
+        } else {
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('d', pathData);
+          path.setAttribute('fill', 'none');
+          path.setAttribute('stroke', 'rgba(22, 163, 74, 0.65)');
+          path.setAttribute('stroke-width', '2.2');
+          path.setAttribute('stroke-dasharray', '5,4');
+          path.setAttribute('marker-end', 'url(#arrow-approved)');
+          svg.appendChild(path);
+        }
+      });
+    }
+
+    // Actualiza toda la interfaz, contadores, filtros de semestre Par/Impar e hitos
+    function updateUI() {
+      let selectedSCT = 0;
+      let selectedCount = 0;
+      let selectedHD = 0;
+      let selectedHTA = 0;
+      let approvedSCT = 0;
+      let approvedCount = 0;
+      let cursableNowCount = 0;
+
+      const licReqSet = new Set(LICENCIATURA_CONFIG.requiredCourses.map(c => c.toUpperCase()));
+      const hoverTargets = (hoveredCourseId && opensGraph[hoveredCourseId])
+        ? new Set(opensGraph[hoveredCourseId])
+        : new Set();
+
+      let availCountI = 0;
+      let availCountP = 0;
+      let availCountALL = 0;
+
+      Object.values(coursesById).forEach(course => {
+        const id = course.id;
+        const prereqOk = hasPrerequisitesMet(id);
+        const state = courseState[id];
+
+        if (state !== 'approved' && prereqOk) {
+          if (isOfferedInPeriod(id, 'I')) availCountI += 1;
+          if (isOfferedInPeriod(id, 'P')) availCountP += 1;
+          availCountALL += 1;
+        }
+      });
+
+      document.getElementById('count-period-I').textContent = `${availCountI} disp.`;
+      document.getElementById('count-period-P').textContent = `${availCountP} disp.`;
+      document.getElementById('count-period-ALL').textContent = `${availCountALL} disp.`;
+
+      document.querySelectorAll('.period-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.period === activeSemesterPeriod);
+      });
+
+      Object.values(coursesById).forEach(course => {
+        const id = course.id;
+        const card = document.getElementById(`card-${id}`);
+        const ribbon = document.getElementById(`ribbon-${id}`);
+        const prereqOk = hasPrerequisitesMet(id);
+        const offeredNow = isOfferedInPeriod(id, activeSemesterPeriod);
+        const cursableNow = prereqOk && offeredNow;
+        const state = courseState[id];
+
+        if (cursableNow && state !== 'approved') {
+          cursableNowCount += 1;
+        }
+
+        if (state === 'selected') {
+          selectedSCT += course.sct;
+          selectedCount += 1;
+          selectedHD += course.hd;
+          selectedHTA += course.hta;
+        } else if (state === 'approved') {
+          approvedSCT += course.sct;
+          approvedCount += 1;
+        }
+
+        if (card) {
+          card.classList.remove(
+            'locked',
+            'unlocked',
+            'state-selected',
+            'state-approved',
+            'highlight-source',
+            'highlight-target',
+            'newly-unlocked',
+            'not-offered-period'
+          );
+
+          if (state === 'selected') {
+            card.classList.add('state-selected', 'unlocked');
+            if (ribbon) ribbon.textContent = '📌 Seleccionada para cursar';
+          } else if (state === 'approved') {
+            card.classList.add('state-approved', 'unlocked');
+            if (ribbon) {
+              ribbon.textContent = convalidatedFromDU416[id]
+                ? `✓ Convalidada (${course.du416Codes.join('/')})`
+                : '✓ Aprobada';
+            }
+          } else {
+            if (cursableNow) {
+              card.classList.add('unlocked');
+              if (ribbon) ribbon.textContent = '';
+            } else {
+              card.classList.add('locked');
+              if (prereqOk && !offeredNow) {
+                card.classList.add('not-offered-period');
+                if (ribbon) {
+                  ribbon.textContent = course.period === 'P' ? 'Solo Sem. Par (P)' : 'Solo Sem. Impar (I)';
+                }
+              } else {
+                if (ribbon) ribbon.textContent = '';
+              }
+            }
+          }
+
+          if (recentlyUnlockedIds.has(id)) {
+            card.classList.add('newly-unlocked');
+          }
+
+          if (hoveredCourseId === id) {
+            card.classList.add('highlight-source');
+          } else if (hoverTargets.has(id)) {
+            card.classList.add('highlight-target');
+          } else if (hoveredCourseId === 'MILESTONE_LIC' && licReqSet.has(id)) {
+            card.classList.add('highlight-source');
+          } else if (hoveredCourseId === 'MILESTONE_TIT' && state !== 'approved') {
+            card.classList.add('highlight-target');
+          }
+        }
+      });
+
+      // Actualizar Hito Vertical 1: Licenciatura en Ciencias de la Ingeniería (Semestre 8)
+      const licProg = getLicenciaturaProgress();
+      const licBar = document.getElementById('milestone-licenciatura');
+      const licReqBadge = document.getElementById('lic-req-badge');
+      const licIcon = document.getElementById('lic-status-icon');
+      const topLicLabel = document.getElementById('top-lic-label');
+      const topLicStatus = document.getElementById('top-licenciatura-status');
+
+      if (licBar) {
+        licBar.classList.toggle('unlocked-milestone', licProg.unlocked);
+        licBar.classList.toggle('locked-milestone', !licProg.unlocked);
+        licBar.classList.toggle(
+          'highlight-target',
+          hoveredCourseId === 'MILESTONE_LIC' || (hoveredCourseId && licReqSet.has(hoveredCourseId))
+        );
+      }
+      if (licReqBadge) {
+        licReqBadge.innerHTML = `Sem 1-8<br/>${licProg.approvedCount}/${licProg.minRequired}`;
+      }
+      if (licIcon) {
+        licIcon.textContent = licProg.unlocked ? '🎓✓' : '🔒';
+      }
+      if (topLicLabel) {
+        topLicLabel.textContent = `Licenciatura (Sem. 1 al 8)`;
+      }
+      if (topLicStatus) {
+        topLicStatus.textContent = licProg.unlocked
+          ? `¡Obtenida! (${licProg.approvedCount}/${licProg.minRequired} ✓)`
+          : `Pendiente (${licProg.approvedCount}/${licProg.minRequired})`;
+        topLicStatus.style.color = licProg.unlocked ? '#4ade80' : '#fde047';
+      }
+
+      // Actualizar Hito Vertical 2: Título de Ingeniería Civil en Informática (Todos los 56 cursos aprobados)
+      const titProg = getTituloProgress();
+      const tituloBar = document.getElementById('milestone-titulo');
+      const tituloReqBadge = document.getElementById('titulo-req-badge');
+      const tituloIcon = document.getElementById('titulo-status-icon');
+      const topTituloStatus = document.getElementById('top-titulo-status');
+
+      if (tituloBar) {
+        tituloBar.classList.toggle('unlocked-milestone', titProg.unlocked);
+        tituloBar.classList.toggle('locked-milestone', !titProg.unlocked);
+        tituloBar.classList.toggle('highlight-target', hoveredCourseId === 'MILESTONE_TIT' || titProg.unlocked);
+      }
+      if (tituloReqBadge) {
+        tituloReqBadge.innerHTML = `Plan<br/>${titProg.approvedCount}/${titProg.totalRequired}`;
+      }
+      if (tituloIcon) {
+        tituloIcon.textContent = titProg.unlocked ? '🎓✓' : '🔒';
+      }
+      if (topTituloStatus) {
+        topTituloStatus.textContent = titProg.unlocked
+          ? `¡Título Obtenido! (${titProg.approvedCount}/${titProg.totalRequired} ✓)`
+          : `Pendiente (${titProg.approvedCount}/${titProg.totalRequired})`;
+        topTituloStatus.style.color = titProg.unlocked ? '#4ade80' : '#fde047';
+      }
+
+      // Actualizar Contadores Superiores e Inferiores de SCT
+      document.getElementById('top-selected-sct').textContent = selectedSCT;
+      document.getElementById('top-selected-count').textContent = selectedCount;
+      document.getElementById('top-approved-sct').textContent = approvedSCT;
+      document.getElementById('top-total-sct').textContent = totalCareerSCT;
+
+      const approvedPct = totalCareerSCT > 0 ? ((approvedSCT / totalCareerSCT) * 100).toFixed(1) : '0.0';
+      document.getElementById('top-approved-pct').textContent = `${approvedPct}%`;
+
+      const overLimit = selectedSCT > MAX_SCT_SEMESTER;
+      const selectedWidget = document.getElementById('widget-selected-sct');
+      const alertBanner = document.getElementById('sct-warning-banner');
+      selectedWidget.classList.toggle('warning-sct', overLimit);
+      alertBanner.classList.toggle('visible', overLimit);
+      document.getElementById('banner-sct-val').textContent = selectedSCT;
+
+      document.getElementById('bottom-progress-label').textContent = `${approvedSCT} / ${totalCareerSCT} SCT (${approvedPct}%)`;
+      document.getElementById('bar-approved').style.width = `${Math.min(100, (approvedSCT / totalCareerSCT) * 100)}%`;
+      document.getElementById('bar-selected').style.width = `${Math.min(100 - (approvedSCT / totalCareerSCT) * 100, (selectedSCT / totalCareerSCT) * 100)}%`;
+
+      document.getElementById('lbl-bar-approved').textContent = `${approvedSCT} SCT`;
+      document.getElementById('lbl-bar-selected').textContent = `${selectedSCT} SCT`;
+      document.getElementById('lbl-bar-pending').textContent = `${Math.max(0, totalCareerSCT - approvedSCT - selectedSCT)} SCT`;
+
+      document.getElementById('kpi-approved-courses').textContent = `${approvedCount} / ${totalCareerCourses}`;
+      document.getElementById('kpi-selected-hours').textContent = `${selectedHD + selectedHTA} hrs`;
+      document.getElementById('kpi-hd-hta-detail').textContent = `${selectedHD} HD + ${selectedHTA} HTA`;
+      document.getElementById('kpi-unlocked-courses').textContent = `${cursableNowCount} ramos`;
+
+      const statusBadge = document.getElementById('summary-status-badge');
+      if (titProg.unlocked) {
+        statusBadge.textContent = '🎓 ¡Título de Ingeniería Civil en Informática Completado!';
+        statusBadge.style.background = '#dcfce7';
+        statusBadge.style.color = '#166534';
+      } else if (overLimit) {
+        statusBadge.textContent = '⚠️ Exceso de SCT (>33 SCT)';
+        statusBadge.style.background = '#fee2e2';
+        statusBadge.style.color = '#991b1b';
+      } else {
+        const semTxt = activeSemesterPeriod === 'I' ? 'Sem. Impar' : (activeSemesterPeriod === 'P' ? 'Sem. Par' : 'Todos');
+        statusBadge.textContent = `Planificando: ${semTxt} | Avance: ${approvedPct}%`;
+        statusBadge.style.background = '#e2e8f0';
+        statusBadge.style.color = '#1e293b';
+      }
+
+      Object.keys(COLORS_ICINF).forEach(compCode => {
+        const compCourses = Object.values(coursesById).filter(c => c.comp === compCode);
+        const compTotal = compCourses.reduce((acc, c) => acc + c.sct, 0);
+        const compApproved = compCourses
+          .filter(c => courseState[c.id] === 'approved')
+          .reduce((acc, c) => acc + c.sct, 0);
+        const el = document.getElementById(`legend-sct-${compCode}`);
+        if (el) el.textContent = `${compApproved} / ${compTotal} SCT`;
+      });
+
+      drawConnectors();
+    }
+
+    // Persistencia local y Respaldo JSON
+    const STORAGE_KEY = 'ulagos_icinf_malla_state_v4';
+
+    function saveToLocalStorage() {
+      try {
+        const payload = {
+          aprobadas: Object.keys(courseState).filter(id => courseState[id] === 'approved'),
+          convalidadasDU416: Object.keys(convalidatedFromDU416).filter(id => convalidatedFromDU416[id]),
+          seleccionadas: Object.keys(courseState).filter(id => courseState[id] === 'selected'),
+          semestreActivo: activeSemesterPeriod,
+          minCursosLicenciaturaS8: LICENCIATURA_CONFIG.minApprovedCount,
+          updatedAt: new Date().toISOString()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      } catch (e) {
+        // Ignore storage errors
+      }
+    }
+
+    function loadFromLocalStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        applyBackupState(data);
+      } catch (e) {
+        // Ignore invalid storage
+      }
+    }
+
+    function applyBackupState(data) {
+      // Si el JSON cargado tiene formato de archivo de estudiante DU416 ({"DU416": [...]}), ejecutar convalidación
+      if (data && Array.isArray(data.DU416) && !Array.isArray(data.aprobadas)) {
+        applyDU416Convalidation(data);
+        return;
+      }
+
+      Object.keys(courseState).forEach(id => {
+        courseState[id] = 'none';
+        convalidatedFromDU416[id] = false;
+      });
+      if (data.semestreActivo && ['I', 'P', 'ALL'].includes(data.semestreActivo)) {
+        activeSemesterPeriod = data.semestreActivo;
+      }
+      if (data.minCursosLicenciaturaS8) {
+        const val = parseInt(data.minCursosLicenciaturaS8, 10);
+        if (val >= 1 && val <= 48) {
+          LICENCIATURA_CONFIG.minApprovedCount = val;
+          const sel = document.getElementById('select-lic-min');
+          if (sel) sel.value = String(val);
+        }
+      }
+      if (Array.isArray(data.aprobadas)) {
+        data.aprobadas.forEach(code => {
+          const norm = String(code).toUpperCase();
+          if (coursesById[norm]) courseState[norm] = 'approved';
+        });
+      }
+      if (Array.isArray(data.convalidadasDU416)) {
+        data.convalidadasDU416.forEach(code => {
+          const norm = String(code).toUpperCase();
+          if (coursesById[norm] && courseState[norm] === 'approved') {
+            convalidatedFromDU416[norm] = true;
+          }
+        });
+      }
+      if (Array.isArray(data.seleccionadas)) {
+        data.seleccionadas.forEach(code => {
+          const norm = String(code).toUpperCase();
+          if (coursesById[norm] && courseState[norm] !== 'approved') {
+            courseState[norm] = 'selected';
+          }
+        });
+      }
+    }
+
+    // Selector de Semestre a Cursar (Impar / Par / Todos)
+    document.querySelectorAll('.period-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const newPeriod = btn.dataset.period;
+        activeSemesterPeriod = newPeriod;
+
+        if (newPeriod === 'I' || newPeriod === 'P') {
+          let removed = 0;
+          Object.keys(courseState).forEach(id => {
+            if (courseState[id] === 'selected' && !isOfferedInPeriod(id, newPeriod)) {
+              courseState[id] = 'none';
+              removed += 1;
+            }
+          });
+          if (removed > 0) {
+            showToast(`Se desmarcaron ${removed} asignatura(s) en curso que no se dictan en Semestre ${newPeriod === 'I' ? 'Impar' : 'Par'}.`);
+          }
+        }
+
+        saveToLocalStorage();
+        updateUI();
+      });
+    });
+
+    // Selector de cantidad mínima de cursos del Semestre 8 para la Licenciatura
+    document.getElementById('select-lic-min').addEventListener('change', (e) => {
+      const val = parseInt(e.target.value, 10);
+      if (val >= 1 && val <= 48) {
+        LICENCIATURA_CONFIG.minApprovedCount = val;
+        saveToLocalStorage();
+        updateUI();
+      }
+    });
+
+    // Botón para Convalidar archivo de estudiante DU416 (ej. Aprobados_du416.json)
+    document.getElementById('input-convalidar-du416').addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const parsed = JSON.parse(ev.target.result);
+          applyDU416Convalidation(parsed);
+        } catch (err) {
+          alert('El archivo seleccionado no tiene un formato JSON válido (se espera el formato de Aprobados_du416.json).');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    });
+
+    document.getElementById('btn-close-conv-banner').addEventListener('click', () => {
+      document.getElementById('conv-summary-banner').classList.remove('visible');
+    });
+
+    // Exportar Respaldo JSON
+    document.getElementById('btn-export').addEventListener('click', () => {
+      const licProg = getLicenciaturaProgress();
+      const titProg = getTituloProgress();
+      const backupObj = {
+        carrera: "Ingeniería Civil en Informática - Universidad de Los Lagos",
+        fechaRespaldo: new Date().toISOString(),
+        semestreActivo: activeSemesterPeriod,
+        minCursosLicenciaturaS8: LICENCIATURA_CONFIG.minApprovedCount,
+        aprobadas: Object.keys(courseState)
+          .filter(id => courseState[id] === 'approved')
+          .map(id => coursesById[id].displayCode),
+        convalidadasDU416: Object.keys(convalidatedFromDU416)
+          .filter(id => convalidatedFromDU416[id] && courseState[id] === 'approved')
+          .map(id => coursesById[id].displayCode),
+        seleccionadas: Object.keys(courseState)
+          .filter(id => courseState[id] === 'selected')
+          .map(id => coursesById[id].displayCode),
+        hitos: {
+          licenciaturaObtenida: licProg.unlocked,
+          cursosHastaSemestre8Aprobados: `${licProg.approvedCount}/${licProg.minRequired}`,
+          tituloProfesionalObtenido: titProg.unlocked,
+          cursosPlanAprobados: `${titProg.approvedCount}/${titProg.totalRequired}`
+        },
+        resumenSCT: {
+          sctAprobados: Object.keys(courseState)
+            .filter(id => courseState[id] === 'approved')
+            .reduce((acc, id) => acc + coursesById[id].sct, 0),
+          sctSeleccionados: Object.keys(courseState)
+            .filter(id => courseState[id] === 'selected')
+            .reduce((acc, id) => acc + coursesById[id].sct, 0),
+          sctTotalesCarrera: totalCareerSCT
+        }
+      };
+
+      const blob = new Blob([JSON.stringify(backupObj, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const dateStr = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `respaldo_malla_ICINF_ULagos_${dateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    // Cargar Respaldo JSON (también detecta automáticamente si es un archivo Aprobados_du416.json)
+    document.getElementById('input-import').addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const parsed = JSON.parse(ev.target.result);
+          applyBackupState(parsed);
+          recentlyUnlockedIds.clear();
+          saveToLocalStorage();
+          updateUI();
+          if (!parsed.DU416) {
+            showToast('✓ Archivo de respaldo cargado correctamente.');
+          }
+        } catch (err) {
+          alert('El archivo seleccionado no tiene un formato JSON válido.');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    });
+
+    // Botón Reiniciar
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      Object.keys(courseState).forEach(id => {
+        courseState[id] = 'none';
+        convalidatedFromDU416[id] = false;
+      });
+      document.getElementById('conv-summary-banner').classList.remove('visible');
+      recentlyUnlockedIds.clear();
+      hoveredCourseId = null;
+      saveToLocalStorage();
+      updateUI();
+    });
+
+    document.getElementById('chk-show-all-lines').addEventListener('change', () => {
+      drawConnectors();
+    });
+
+    window.addEventListener('resize', () => {
+      drawConnectors();
+    });
+
+    // Inicializar Aplicación
+    document.getElementById('select-lic-min').value = String(LICENCIATURA_CONFIG.minApprovedCount);
+    buildMatrixDOM();
+    buildLegendDOM();
+    loadFromLocalStorage();
+    updateUI();
+  </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+	"CE1AI": ["#FFA488", "Aplicaciones Informáticas"],
+	"CE2PI": ["#ACDB90", "Proyectos Informáticos"],
+	"CE3TI": ["#FADF8D", "Tecnologías de Información"],
+	"CI": ["#605BF5", "Ciencias de la Ingeniería"],
+	"CFI": ["#324773", "Centro de Formación Integral"],
+	"ELEC": ["#DCA8E2", "Electivos/Prácticas"]
+}

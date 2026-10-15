@@ -1,0 +1,91 @@
+{
+	"s1": [
+		["Introducción a la Matemática","CBI01",6,11,11,"CI",[],"A"],
+		["Química","CBI02",3,5,5,"CI",[],"I"],
+		["Taller de Introducción a la Ingeniería Informática","FDICI01",3,4,4,"CE3TI",[],"I"],
+		["Programación","FDCI02",6,5,7,"CE1AI",[],"I"],
+		["Habilidades Comunicativas para Ingenieros","FIN07",2,3,3,"CFI",[],"I"]
+	],
+	"s2": [
+		["Introducción al CálculoI","CBI03",5,5,6,"CI",["CBI01"],"A"],
+		["Álgebra","CBI04",5,5,6,"CI",[],"P"],
+		["Introducción a la Física","CBI05",5,6,7,"CI",[],"P"],
+		["Programación Orientada a Objetos","FDICI02",4,4,5,"CE1AI",["FDCI02"],"P"],
+		["Electivo de Formación Integral I","EFIN01",2,1,2,"CFI",[],"P"],
+		["Ciudadanía","FIN02",2,1,2,"CFI",[],"P"]
+	],
+	"s3": [
+	["Cálculo Diferencial e Integral","CBI06",5,5,6,"CI",["CBI03"],"A"],
+	["Álgebra Superior","CBI07",5,5,6,"CI",["CBI04"],"I"],
+	["Física Newtoniana","CBI08",5,6,7,"CI",["CBI05","CBI03"],"I"],
+	["Estructuras de Datos","FDICI03",4,5,6,"CE1AI",["FDCI02"],"I"],
+	["Taller de Programación Aplicada","FDICI04",2,5,4,"CE1AI",["FDICI02"],"A"],
+	["Inglés I","FIN03",2,3,3,"CFI",[],"I"]
+	],
+	"s4": [
+	["Cálculo Multivariable","CBI09",4,6,6,"CI",["CBI06"],"A"],
+	["Electromagnetismo","CBI11",3,5,5,"CI",["CBI08","CBI06"],"P"],
+	["Modelamiento y Paradigmas de Programación","FDICI06",3,4,4,"CE1AI",[],"P"],
+	["Autómatas y Lenguajes Formales","FDICI07",3,4,4,"CE1AI",[],"P"],
+	["Estructuras Discretas","FDICI05",3,5,5,"CI",["CBI04"],"P"],
+	["Inglés II","FIN04",2,3,3,"CFI",["FIN03"],"P"],
+	["Electivo de Formación Integral II","EFIN02",2,1,2,"CFI",[],"P"]
+	],
+	"s5": [
+	["Ecuaciones Diferenciales","CBI12",4,6,6,"CI",["CBI09"],"I"],
+	["Física Moderna y Ondas","CBI14",3,4,4,"CI",[],"I"],
+		["Estadística y Probabilidad","CBI10",3,5,5,"CI",[],"I"],
+	["Análisis y Diseños de Algoritmos","FDICI08",4,5,6,"CE1AI",[],"I"],
+	["Base de Datos","FDICI09",5,5,6,"CE1AI",["FDICI06"],"I"],
+	["Inglés III","FIN05",2,3,3,"CFI",["FIN04"],"I"]
+	],
+	"s6": [
+	["Cálculo Numérico","CBI13",4,6,6,"CI",["CBI06"],"P"],
+	["Base de Datos Avanzadas","FDICI10",3,5,5,"CE1AI",["FDICI09"],"P"],
+	["Tecnologías Web y Móviles","FDICI11",4,4,5,"CE1AI",[],"P"],
+	["Taller de Diseño Digital","FDCI13",3,5,5,"CE3TI",[],"P"],
+	["Ingeniería de Sistemas","FDCI14",3,5,5,"CE2PI",[],"P"],
+	["Inglés IV","FIN06",2,3,3,"CFI",["FIN05"],"P"],
+	["Electivo de Formación Integral III","EFIN03",2,1,2,"CFI",[],"P"]
+	],
+	"s7": [
+["Taller de Ingeniería Informática","FDICI12",2,6,5,"CE2PI",["FDICI11"],"I"],
+["Gestión de Empresas","CSI02",3,5,5,"CE2PI",[],"A"],
+["Sistemas de Información","FDCI15",3,4,4,"CE2PI",["FDCI14"],"I"],
+["Economía","CSI01",3,5,5,"CE2PI",[],"A"],
+["Arquitectura de Computadores","FDICI13",3,4,4,"CE3TI",[],"I"],
+["Inglés para Informáticos I","FDICI14",2,3,3,"CFI",["FIN06"],"I"],
+["Práctica Intermedia","FDICI15",0,8,5,"ELEC",["FDICI09"],"A"]
+
+	],
+	"s8": [
+["Ingeniería de Software","FDICI17",3,5,5,"CE2PI",["FDICI06"],"P"],
+["Formulación y Evaluación de Proyecto","FDCI16",3,5,5,"CE2PI",[],"P"],
+["Investigación Operativa","FDCI09",3,5,5,"CE2PI",["CBI07"],"P"],
+["Contabilidad de Costos","FDIC07",3,4,4,"CE2PI",[],"P"],
+["Inglés para Informáticos II","FDICI16",2,3,3,"CFI",["FDICI14"],"P"],
+["Sistemas Operativos","FDICI18",4,4,5,"CE1AI",["FDICI13"],"P"],
+["Electivo de Formación Integral IV","EFIN04",2,1,2,"CFI",[],"P"]
+
+	],
+	"s9": [
+		["Inteligencia Artificial","FDICI19",4,4,5,"CE1AI",["FDICI07"],"I"],
+		["Taller de Ingeniería de Software","FDICI20",2,6,5,"CE2PI",["FDICI17"],"I"],
+		["Redes y Comunicaciones","FDICI21",4,4,5,"CE3TI",[],"I"],
+		["Innovación y Emprendimiento en Informática","FDICI22",2,6,5,"CE2PI",[],"I"],
+		["Electivo Formación Disciplinar I","EFDI01",3,5,5,"ELEC",[],"I"],
+		["Electivo Formación Disciplinar II","EFDI02",3,5,5,"ELEC",[],"I"]
+	],
+	"s10": [
+		["Electivo Formación Disciplinar III","EFDI03",3,5,5,"ELEC",[],"P"],
+		["Electivo Formación Disciplinar IV","EFDI04",3,5,5,"ELEC",[],"P"],
+["Anteproyecto de Título","FDICI24",3,6,22,"CE2PI",["FDICI19","FDICI20","FDICI21","FDICI22","EFDI01","EFDI02"],"P"],
+["Taller de Integración Tecnológica","FDICI23",2,6,5,"CE2PI",["FDICI20"],"P"],
+["Sistemas Distribuidos","FDICI25",4,4,5,"CE3TI",["FDICI21"],"P"],
+["Seguridad Informática","FDICI26",4,4,5,"CE1AI",["FDICI12"],"P"]
+	],
+	"s11": [
+		["Práctica Profesional","FDICI28",0,19,12,"ELEC",["FDICI17","FDCI16","FDCI09","FDIC07","FDICI16","FDICI18", "EFIN04"],"P"],
+["Proyecto de Título","FDICI27",4,25,18,"CE2PI",["FDICI24"],"P"]
+	]
+}
