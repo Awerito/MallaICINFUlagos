@@ -63,8 +63,8 @@ export function usePlanner(courseById, versionId, approvedIds) {
     setIsPlanning(!isPlanning);
   }
 
-  function stepSemester(delta) {
-    const nextSemesterNumber = Math.max(1, semesterNumber + delta);
+  function chooseSemester(nextSemesterNumber) {
+    if (!Number.isInteger(nextSemesterNumber) || nextSemesterNumber < 1) return;
     const nextPickedIds = new Set(
       [...pickedIds].filter((courseId) =>
         opensInSemesterNumber(courseId, nextSemesterNumber),
@@ -108,7 +108,7 @@ export function usePlanner(courseById, versionId, approvedIds) {
     isPlanning,
     togglePlanning,
     semesterNumber,
-    stepSemester,
+    chooseSemester,
     opensThisSemester,
     columnOpens,
     pickedIds,

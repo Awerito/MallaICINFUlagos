@@ -34,7 +34,7 @@ export default function App() {
     isPlanning,
     togglePlanning,
     semesterNumber,
-    stepSemester,
+    chooseSemester,
     opensThisSemester,
     columnOpens,
     pickedIds,
@@ -65,12 +65,18 @@ export default function App() {
               togglePlanning();
             }}
             className={
-              "flex flex-col items-start gap-1 border-2 px-3.5 py-2 font-semibold " +
+              "relative flex flex-col items-start gap-1 border-2 px-3.5 py-2 font-semibold " +
               (isPlanning
                 ? "translate-x-[3px] translate-y-[3px] border-blue bg-blue text-white"
                 : "border-ink bg-white shadow-brutal-sm hover:bg-paper")
             }
           >
+            {!isPlanning && plannedCount > 0 && (
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute -top-0.5 -right-0.5 size-7 bg-blue [clip-path:polygon(0_0,100%_0,100%_100%,100%_100%)]"
+              />
+            )}
             <span>
               {isPlanning
                 ? "Salir del planificador ›"
@@ -116,7 +122,7 @@ export default function App() {
       {isPlanning && (
         <PlannerBar
           semesterNumber={semesterNumber}
-          onStepSemester={stepSemester}
+          onChooseSemester={chooseSemester}
           pickedCredits={pickedCredits}
         />
       )}
