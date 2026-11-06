@@ -164,13 +164,20 @@ export default function App() {
           )}
         </button>
       </header>
-      {isPlanning && (
-        <PlannerBar
-          semesterNumber={semesterNumber}
-          onChooseSemester={chooseSemester}
-          pickedCredits={pickedCredits}
-        />
-      )}
+      <div
+        className={`grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none ${isPlanning ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+      >
+        <div
+          inert={!isPlanning}
+          className={`min-h-0 overflow-hidden transition-opacity duration-300 motion-reduce:transition-none ${isPlanning ? "opacity-100" : "opacity-0"}`}
+        >
+          <PlannerBar
+            semesterNumber={semesterNumber}
+            onChooseSemester={chooseSemester}
+            pickedCredits={pickedCredits}
+          />
+        </div>
+      </div>
       <CurriculumGrid
         courses={selectedVersion.courses}
         courseById={courseById}

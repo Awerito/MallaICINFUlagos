@@ -1,4 +1,4 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import CourseCard from "./CourseCard";
 import PrerequisiteArrows from "./PrerequisiteArrows";
 import { hasAllPrerequisitesApproved } from "../curriculumGraph";
@@ -46,6 +46,28 @@ export default function CurriculumGrid({
   onToggleColumnPicks,
 }) {
   const boardRef = useRef(null);
+  const scrollerRef = useRef(null);
+
+  // On page load only: bring the last semester with an approved course to the left edge.
+  useEffect(() => {
+    const lastApprovedSemester = Math.max(
+      0,
+      ...courses
+        .filter((course) => approvedIds.has(course.id))
+        .map((course) => course.semester),
+    );
+    const section = scrollerRef.current.querySelector(
+      `[data-semester="${lastApprovedSemester}"]`,
+    );
+    if (!section) return;
+    scrollerRef.current.scrollTo({
+      left:
+        section.getBoundingClientRect().left -
+        scrollerRef.current.getBoundingClientRect().left,
+      behavior: "smooth",
+    });
+  }, []);
+
   const lastSemesterNumber = Math.max(
     ...courses.map((course) => course.semester),
   );
@@ -63,7 +85,10 @@ export default function CurriculumGrid({
     .join(" ");
 
   return (
-    <div className="snap-x snap-mandatory overflow-x-auto px-1 pt-1 pb-3">
+    <div
+      ref={scrollerRef}
+      className="snap-x snap-mandatory overflow-x-auto px-1 pt-1 pb-3"
+    >
       <div
         ref={boardRef}
         className="relative grid gap-4"
@@ -103,7 +128,10 @@ export default function CurriculumGrid({
               : "border-muted bg-transparent text-muted";
           return (
             <Fragment key={semesterNumber}>
-              <section className="flex min-w-0 snap-start flex-col gap-3">
+              <section
+                data-semester={semesterNumber}
+                className="flex min-w-0 snap-start flex-col gap-3"
+              >
                 <header
                   className={`flex h-14 items-center justify-between border-2 px-2.5 font-extrabold transition-[background-color,color,border-color] duration-250 motion-reduce:transition-none ${headerStateClasses}`}
                 >
