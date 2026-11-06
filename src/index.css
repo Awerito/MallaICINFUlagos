@@ -16,3 +16,9 @@
   --shadow-brutal: 4px 4px 0 0 var(--color-ink);
   --shadow-brutal-sm: 3px 3px 0 0 var(--color-ink);
 }
+
+@layer base {
+  body {
+    background-color: var(--color-paper);
+  }
+}

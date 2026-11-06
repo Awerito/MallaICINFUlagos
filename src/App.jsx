@@ -191,9 +191,9 @@ export default function App() {
         areAllPicked={areAllPicked}
         onToggleColumnPicks={toggleColumnPicks}
       />
-      <footer className="mt-8 flex items-start justify-between gap-4">
+      <footer className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <Legend />
-        <div className="inline-flex shrink-0 border-2 border-ink bg-white">
+        <div className="inline-flex shrink-0 self-end border-2 border-ink bg-white sm:self-auto">
           {CURRICULUM_VERSIONS.map((version, index) => {
             const isSelected = version.id === selectedVersionId;
             return (
