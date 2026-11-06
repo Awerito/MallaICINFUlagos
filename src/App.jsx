@@ -235,7 +235,7 @@ export default function App() {
             </a>{" "}
             ·{" "}
             <a
-              href="https://github.com/Awerito/MallaICINFUlagos/blob/main/LICENSE"
+              href="https://github.com/Awerito/MallaICINFUlagos/blob/master/LICENSE"
               className="underline"
             >
               MIT
