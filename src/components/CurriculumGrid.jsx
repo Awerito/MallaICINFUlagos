@@ -5,12 +5,12 @@ import { hasAllPrerequisitesApproved } from "../curriculumGraph";
 
 const LICENCIATURA_SEMESTER = 8;
 
-function MilestoneColumn({ shortName, fullName, isReached }) {
+function MilestoneColumn({ shortName, fullName, isReached, isPlanning }) {
   return (
     <div className="flex flex-col items-center gap-3">
       <div
         title={fullName}
-        className={`grid h-10 w-full place-items-center border-2 font-extrabold ${
+        className={`grid w-full place-items-center border-2 font-extrabold ${isPlanning ? "h-14" : "h-10"} ${
           isReached
             ? "border-ink bg-ink text-paper"
             : "border-dashed border-ink bg-[repeating-linear-gradient(135deg,var(--color-white)_0_6px,var(--color-hatch)_6px_8px)] text-muted"
@@ -101,13 +101,13 @@ export default function CurriculumGrid({
             <Fragment key={semesterNumber}>
               <section className="flex min-w-0 snap-start flex-col gap-3">
                 <header
-                  className={`flex h-10 items-center justify-between border-2 px-2.5 font-extrabold transition-[background-color,color,border-color] duration-250 motion-reduce:transition-none ${headerStateClasses}`}
+                  className={`flex items-center justify-between border-2 px-2.5 font-extrabold transition-[background-color,color,border-color] duration-250 motion-reduce:transition-none ${isPlanning ? "h-14" : "h-10"} ${headerStateClasses}`}
                 >
-                  <span className="whitespace-nowrap">
-                    Semestre {semesterNumber}
-                    {isPlanning && (
-                      <span className="ml-1.5 text-[0.7rem] font-semibold tracking-wide">
-                        {isColumnOpen ? "· se abre" : "· no se abre"}
+                  <span className="flex flex-col justify-center leading-tight whitespace-nowrap">
+                    <span>Semestre {semesterNumber}</span>
+                    {isPlanning && !isColumnOpen && (
+                      <span className="text-[0.7rem] font-semibold tracking-wide">
+                        no se dicta
                       </span>
                     )}
                   </span>
@@ -157,12 +157,8 @@ export default function CurriculumGrid({
                       isClosedInOpenColumn={
                         isClosedThisSemester && isColumnOpen
                       }
-                      isYearRoundInClosedColumn={
-                        isPlanning &&
-                        !isColumnOpen &&
-                        !isApproved &&
-                        !isLocked &&
-                        course.offered === "A"
+                      isYearRound={
+                        isPlanning && !isApproved && course.offered === "A"
                       }
                       isPlanned={pickedIds.has(course.id)}
                       onTogglePick={() => onTogglePick(course.id)}
@@ -188,6 +184,7 @@ export default function CurriculumGrid({
                   shortName="Licenciatura"
                   fullName="Licenciatura en Ciencias de la Ingeniería"
                   isReached={isSemesterFullyApproved(LICENCIATURA_SEMESTER)}
+                  isPlanning={isPlanning}
                 />
               )}
               {semesterNumber === lastSemesterNumber && (
@@ -195,6 +192,7 @@ export default function CurriculumGrid({
                   shortName="Título"
                   fullName="Título de Ingeniería Civil en Informática"
                   isReached={isSemesterFullyApproved(lastSemesterNumber)}
+                  isPlanning={isPlanning}
                 />
               )}
             </Fragment>

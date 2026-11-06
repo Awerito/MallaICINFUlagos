@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { columnOpensInSemester, opensInSemester } from "./curriculumGraph";
+import {
+  columnOpensInSemester,
+  hasAllPrerequisitesApproved,
+  opensInSemester,
+} from "./curriculumGraph";
 
 export const CREDIT_LIMIT_PER_SEMESTER = 33;
 
@@ -45,7 +49,10 @@ export function usePlanner(courseById, versionId, approvedIds) {
 
   const pickedIds = new Set(
     [...storedPickedIds].filter(
-      (courseId) => courseById[courseId] && !approvedIds.has(courseId),
+      (courseId) =>
+        courseById[courseId] &&
+        !approvedIds.has(courseId) &&
+        hasAllPrerequisitesApproved(courseId, courseById, approvedIds),
     ),
   );
 

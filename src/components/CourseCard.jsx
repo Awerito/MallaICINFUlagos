@@ -17,7 +17,7 @@ export default function CourseCard({
   isPlanning,
   isClosedThisSemester,
   isClosedInOpenColumn,
-  isYearRoundInClosedColumn,
+  isYearRound,
   isPlanned,
   focusRole,
   isPinned,
@@ -95,14 +95,14 @@ export default function CourseCard({
       >
         {course.name}
       </p>
-      {isYearRoundInClosedColumn && (
+      {isYearRound && (
         <p className="text-xs font-semibold tracking-wide text-blue">
           todo el año
         </p>
       )}
       {isClosedInOpenColumn && (
         <p className="text-xs font-semibold tracking-wide">
-          no se abre este semestre
+          no se dicta este semestre
         </p>
       )}
       <p className="flex items-baseline gap-1 pr-7 tabular-nums">
