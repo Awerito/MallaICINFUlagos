@@ -97,12 +97,28 @@ export default function App() {
             </h1>
             <p className="mt-2 text-muted tabular-nums">
               Universidad de Los Lagos ·{" "}
-              <span className="font-extrabold text-ink">
-                {progressPercent} %
-              </span>{" "}
-              de la carrera · {approvedCourses.length} de{" "}
-              {selectedVersion.courses.length} ramos · {approvedCredits} de{" "}
-              {totalCredits} créditos
+              {approvedCourses.length === 0 ? (
+                <>
+                  <span className="font-extrabold text-ink">
+                    Marca (
+                    <span
+                      aria-hidden="true"
+                      className="inline-grid size-5 -translate-y-1 place-items-center border-2 border-green bg-green align-baseline after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-white after:content-['']"
+                    />
+                    ) los ramos que ya aprobaste
+                  </span>{" "}
+                  y toca cualquiera para ver qué necesita y qué abre
+                </>
+              ) : (
+                <>
+                  <span className="font-extrabold text-ink">
+                    {progressPercent} %
+                  </span>{" "}
+                  de la carrera · {approvedCourses.length} de{" "}
+                  {selectedVersion.courses.length} ramos · {approvedCredits} de{" "}
+                  {totalCredits} créditos
+                </>
+              )}
             </p>
           </div>
         </div>
