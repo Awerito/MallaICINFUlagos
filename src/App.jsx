@@ -28,9 +28,28 @@ function storeVersionId(versionId) {
   }
 }
 
+const ROW_ALIGNMENT_STORAGE_KEY = "icinf-curriculum/aligned-rows";
+
+function readStoredRowAlignment() {
+  try {
+    return localStorage.getItem(ROW_ALIGNMENT_STORAGE_KEY) !== "false";
+  } catch {
+    return true;
+  }
+}
+
+function storeRowAlignment(isRowAligned) {
+  try {
+    localStorage.setItem(ROW_ALIGNMENT_STORAGE_KEY, String(isRowAligned));
+  } catch {
+    // storage unavailable: the choice still lives in memory for this session
+  }
+}
+
 export default function App() {
   const [selectedVersionId, setSelectedVersionId] =
     useState(readStoredVersionId);
+  const [isRowAligned, setIsRowAligned] = useState(readStoredRowAlignment);
   const selectedVersion = CURRICULUM_VERSIONS.find(
     (version) => version.id === selectedVersionId,
   );
@@ -77,6 +96,11 @@ export default function App() {
   function selectVersion(versionId) {
     setSelectedVersionId(versionId);
     storeVersionId(versionId);
+  }
+
+  function toggleRowAlignment() {
+    setIsRowAligned(!isRowAligned);
+    storeRowAlignment(!isRowAligned);
   }
 
   return (
@@ -197,10 +221,20 @@ export default function App() {
         onTogglePick={togglePick}
         areAllPicked={areAllPicked}
         onToggleColumnPicks={toggleColumnPicks}
+        isRowAligned={isRowAligned}
       />
       <footer className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <Legend />
         <div className="flex shrink-0 flex-col items-end gap-3 self-end sm:self-auto">
+          <label className="flex cursor-pointer items-center gap-2 text-sm font-semibold">
+            Alinear filas
+            <input
+              type="checkbox"
+              checked={isRowAligned}
+              onChange={toggleRowAlignment}
+              className="grid size-5 cursor-pointer appearance-none place-items-center border-2 border-ink bg-white after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-transparent after:content-[''] checked:bg-ink checked:after:border-white"
+            />
+          </label>
           <div className="inline-flex border-2 border-ink bg-white">
             {CURRICULUM_VERSIONS.map((version, index) => {
               const isSelected = version.id === selectedVersionId;

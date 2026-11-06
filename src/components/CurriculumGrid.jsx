@@ -5,9 +5,11 @@ import { hasAllPrerequisitesApproved } from "../curriculumGraph";
 
 const LICENCIATURA_SEMESTER = 8;
 
-function MilestoneColumn({ shortName, fullName, isReached }) {
+function MilestoneColumn({ shortName, fullName, isReached, isRowAligned }) {
   return (
-    <div className="flex flex-col items-center gap-3">
+    <div
+      className={`flex flex-col items-center gap-3 ${isRowAligned ? "row-span-full" : ""}`}
+    >
       <div
         title={fullName}
         className={`grid h-14 w-full place-items-center border-2 font-extrabold ${
@@ -44,6 +46,7 @@ export default function CurriculumGrid({
   onTogglePick,
   areAllPicked,
   onToggleColumnPicks,
+  isRowAligned,
 }) {
   const boardRef = useRef(null);
   const scrollerRef = useRef(null);
@@ -83,6 +86,12 @@ export default function CurriculumGrid({
         : "minmax(9rem, 1fr)",
     )
     .join(" ");
+  const mostCoursesInASemester = Math.max(
+    ...semesterNumbers.map(
+      (semesterNumber) =>
+        courses.filter((course) => course.semester === semesterNumber).length,
+    ),
+  );
 
   return (
     <div
@@ -91,8 +100,13 @@ export default function CurriculumGrid({
     >
       <div
         ref={boardRef}
-        className="relative grid gap-4"
-        style={{ gridTemplateColumns: columnTemplate }}
+        className="relative grid gap-x-4 gap-y-3"
+        style={{
+          gridTemplateColumns: columnTemplate,
+          gridTemplateRows: isRowAligned
+            ? `auto repeat(${mostCoursesInASemester}, auto)`
+            : "auto",
+        }}
       >
         <PrerequisiteArrows
           boardRef={boardRef}
@@ -130,7 +144,7 @@ export default function CurriculumGrid({
             <Fragment key={semesterNumber}>
               <section
                 data-semester={semesterNumber}
-                className="flex min-w-0 snap-start flex-col gap-3"
+                className={`min-w-0 snap-start ${isRowAligned ? "row-span-full grid grid-rows-subgrid" : "flex flex-col gap-3"}`}
               >
                 <header
                   className={`flex h-14 items-center justify-between border-2 px-2.5 font-extrabold transition-[background-color,color,border-color] duration-250 motion-reduce:transition-none ${headerStateClasses}`}
@@ -221,6 +235,7 @@ export default function CurriculumGrid({
                   shortName="Licenciatura"
                   fullName="Licenciatura en Ciencias de la Ingeniería"
                   isReached={isSemesterFullyApproved(LICENCIATURA_SEMESTER)}
+                  isRowAligned={isRowAligned}
                 />
               )}
               {semesterNumber === lastSemesterNumber && (
@@ -228,6 +243,7 @@ export default function CurriculumGrid({
                   shortName="Título"
                   fullName="Título de Ingeniería Civil en Informática"
                   isReached={isSemesterFullyApproved(lastSemesterNumber)}
+                  isRowAligned={isRowAligned}
                 />
               )}
             </Fragment>

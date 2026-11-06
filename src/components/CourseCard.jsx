@@ -105,7 +105,7 @@ export default function CourseCard({
           no se dicta este semestre
         </p>
       )}
-      <p className="flex items-baseline gap-1 pr-7 tabular-nums">
+      <p className="mt-auto flex items-baseline gap-1 pr-7 tabular-nums">
         <span className="text-xl font-extrabold leading-none">
           {course.sct}
         </span>
