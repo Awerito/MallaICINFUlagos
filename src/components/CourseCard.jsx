@@ -36,6 +36,9 @@ export default function CourseCard({
         : isPlanning && isPlanned
           ? "border-blue bg-white shadow-[3px_3px_0_0_var(--color-blue)]"
           : "bg-white shadow-brutal-sm";
+  const focusStateClasses = isPinned
+    ? "-translate-x-[3px] -translate-y-[3px] shadow-[6px_6px_0_0_var(--color-ink)]"
+    : (focusClasses[focusRole] ?? "");
   const showsPickCheckbox = isPlanning && !isApproved;
   const isPickable = !isLocked && !isClosedThisSemester;
   const plannedMarkStyle = isPlanning
@@ -56,7 +59,7 @@ export default function CourseCard({
       onClick={onSelect}
       onMouseEnter={onHover}
       onMouseLeave={onHoverEnd}
-      className={`relative flex min-w-0 cursor-pointer flex-col gap-2 border-2 border-l-8 border-ink px-3 py-2.5 transition-[opacity,transform,box-shadow,background-color,color] duration-250 motion-reduce:transition-none ${stateClasses} ${focusClasses[focusRole] ?? ""} ${isPinned ? "outline-3 outline-offset-3 outline-ink" : ""}`}
+      className={`relative flex min-w-0 cursor-pointer flex-col gap-2 border-2 border-l-8 border-ink px-3 py-2.5 transition-[opacity,transform,box-shadow,background-color,color] duration-250 motion-reduce:transition-none ${stateClasses} ${focusStateClasses}`}
       style={{ borderLeftColor: areas[course.area].color }}
     >
       {isPlanned && (
