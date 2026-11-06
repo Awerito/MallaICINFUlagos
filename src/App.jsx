@@ -81,21 +81,21 @@ export default function App() {
 
   return (
     <main
-      className="min-h-screen bg-paper px-4 py-8 font-sans text-ink sm:px-8"
+      className="min-h-screen bg-paper px-4 py-4 font-sans text-ink sm:px-8 sm:py-8"
       onClick={clearPinnedCourses}
     >
-      <header className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink pb-4">
-        <div className="flex items-center gap-4">
+      <header className="mb-4 flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink pb-3 sm:mb-8 sm:pb-4">
+        <div className="grid grid-cols-[auto_1fr] items-center gap-x-3 sm:flex sm:gap-4">
           <img
             src="/favicon.png"
             alt=""
-            className="h-16 w-16 shrink-0 -translate-y-1"
+            className="h-12 w-12 shrink-0 sm:h-16 sm:w-16 sm:-translate-y-1"
           />
-          <div>
+          <div className="contents sm:block">
             <h1 className="text-3xl font-extrabold leading-none tracking-tight sm:text-4xl">
               Ingeniería Civil en Informática
             </h1>
-            <p className="mt-2 text-muted tabular-nums">
+            <p className="col-span-2 mt-2 text-muted tabular-nums">
               Universidad de Los Lagos ·{" "}
               {approvedCourses.length === 0 ? (
                 <>
@@ -129,7 +129,7 @@ export default function App() {
             togglePlanning();
           }}
           className={
-            "relative flex flex-col items-start gap-1 border-2 px-3.5 py-2 font-semibold " +
+            "relative flex w-full flex-col items-start gap-1 border-2 px-3.5 py-2 font-semibold sm:w-auto " +
             (isPlanning
               ? "translate-x-[3px] translate-y-[3px] border-blue bg-blue text-white"
               : "border-ink bg-white shadow-brutal-sm hover:bg-paper")
