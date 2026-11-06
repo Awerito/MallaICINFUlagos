@@ -85,17 +85,26 @@ export default function App() {
       onClick={clearPinnedCourses}
     >
       <header className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink pb-4">
-        <div>
-          <h1 className="text-3xl font-extrabold leading-none tracking-tight sm:text-4xl">
-            Ingeniería Civil en Informática
-          </h1>
-          <p className="mt-2 text-muted tabular-nums">
-            Universidad de Los Lagos ·{" "}
-            <span className="font-extrabold text-ink">{progressPercent} %</span>{" "}
-            de la carrera · {approvedCourses.length} de{" "}
-            {selectedVersion.courses.length} ramos · {approvedCredits} de{" "}
-            {totalCredits} créditos
-          </p>
+        <div className="flex items-center gap-4">
+          <img
+            src="/favicon.png"
+            alt=""
+            className="h-16 w-16 shrink-0 -translate-y-1"
+          />
+          <div>
+            <h1 className="text-3xl font-extrabold leading-none tracking-tight sm:text-4xl">
+              Ingeniería Civil en Informática
+            </h1>
+            <p className="mt-2 text-muted tabular-nums">
+              Universidad de Los Lagos ·{" "}
+              <span className="font-extrabold text-ink">
+                {progressPercent} %
+              </span>{" "}
+              de la carrera · {approvedCourses.length} de{" "}
+              {selectedVersion.courses.length} ramos · {approvedCredits} de{" "}
+              {totalCredits} créditos
+            </p>
+          </div>
         </div>
         <button
           type="button"
