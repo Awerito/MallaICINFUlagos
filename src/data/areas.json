@@ -1,0 +1,26 @@
+{
+  "CE1AI": {
+    "label": "Aplicaciones Informáticas",
+    "color": "#FFA488"
+  },
+  "CE2PI": {
+    "label": "Proyectos Informáticos",
+    "color": "#ACDB90"
+  },
+  "CE3TI": {
+    "label": "Tecnologías de Información",
+    "color": "#FADF8D"
+  },
+  "CI": {
+    "label": "Ciencias de la Ingeniería",
+    "color": "#605BF5"
+  },
+  "CFI": {
+    "label": "Centro de Formación Integral",
+    "color": "#BDBDC7"
+  },
+  "ELEC": {
+    "label": "Electivos/Prácticas",
+    "color": "#DCA8E2"
+  }
+}
