@@ -152,7 +152,7 @@ export default function App() {
                 {semesterNumber}° semestre · {plannedCount} ramos ·{" "}
                 {pickedCredits} de {CREDIT_LIMIT_PER_SEMESTER} créditos
               </span>
-              <span className="h-1.5 w-40 border border-current">
+              <span className="h-1.5 w-full border border-current">
                 <span
                   className={`block h-full ${pickedCredits > CREDIT_LIMIT_PER_SEMESTER ? "bg-red" : "bg-blue"}`}
                   style={{

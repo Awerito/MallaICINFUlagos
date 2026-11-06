@@ -13,7 +13,7 @@ export default function PlannerBar({
   );
 
   return (
-    <section className="mb-6 flex flex-wrap items-center gap-8 border-2 border-blue bg-white px-4 py-3.5">
+    <section className="mb-6 flex flex-wrap items-center gap-x-8 gap-y-3 border-2 border-blue bg-white px-4 py-3.5">
       <div className="flex items-center gap-4">
         <div className="flex flex-col gap-0.5">
           <span className="font-extrabold">
@@ -56,9 +56,15 @@ export default function PlannerBar({
           </button>
         </span>
       </div>
-      <div className="ml-auto flex min-w-65 flex-col gap-1.5">
+      <div className="flex w-full flex-col gap-1.5 sm:ml-auto sm:w-auto sm:min-w-65">
+        <div className="h-3 border-2 border-ink bg-white">
+          <div
+            className={`h-full transition-[width] duration-250 motion-reduce:transition-none ${isOverBudget ? "bg-red" : "bg-blue"}`}
+            style={{ width: `${usedPercent}%` }}
+          />
+        </div>
         <p
-          className={`text-2xl font-extrabold tabular-nums ${isOverBudget ? "text-red" : ""}`}
+          className={`text-right text-2xl font-extrabold tabular-nums sm:order-first ${isOverBudget ? "text-red" : ""}`}
         >
           {pickedCredits}{" "}
           <span className="text-sm font-normal opacity-75">
@@ -66,12 +72,6 @@ export default function PlannerBar({
             {isOverBudget && ` · ${creditsOver} de más`}
           </span>
         </p>
-        <div className="h-3 border-2 border-ink bg-white">
-          <div
-            className={`h-full transition-[width] duration-250 motion-reduce:transition-none ${isOverBudget ? "bg-red" : "bg-blue"}`}
-            style={{ width: `${usedPercent}%` }}
-          />
-        </div>
       </div>
     </section>
   );
