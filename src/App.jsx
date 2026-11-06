@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CURRICULUM_VERSIONS } from "./data/curriculumVersions";
 import { useApprovedCourses } from "./useApprovedCourses";
+import { useCourseFocus } from "./useCourseFocus";
 import CurriculumGrid from "./components/CurriculumGrid";
 import Legend from "./components/Legend";
 
@@ -14,13 +15,24 @@ export default function App() {
   const {
     approvedIds,
     courseById,
+    coursesOpenedBy,
     toggleCourse,
     isSemesterFullyApproved,
     toggleSemester,
   } = useApprovedCourses(selectedVersionId, selectedVersion.courses);
+  const {
+    pinnedCourseIds,
+    focusRoleOf,
+    hoverCourse,
+    selectCourse,
+    clearPinnedCourses,
+  } = useCourseFocus(courseById, coursesOpenedBy);
 
   return (
-    <main className="min-h-screen bg-paper px-4 py-8 font-sans text-ink sm:px-8">
+    <main
+      className="min-h-screen bg-paper px-4 py-8 font-sans text-ink sm:px-8"
+      onClick={clearPinnedCourses}
+    >
       <header className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink pb-4">
         <div>
           <h1 className="text-3xl font-extrabold leading-none tracking-tight sm:text-4xl">
@@ -56,6 +68,10 @@ export default function App() {
         onToggleApproved={toggleCourse}
         isSemesterFullyApproved={isSemesterFullyApproved}
         onToggleSemester={toggleSemester}
+        focusRoleOf={focusRoleOf}
+        pinnedCourseIds={pinnedCourseIds}
+        onSelectCourse={selectCourse}
+        onHoverCourse={hoverCourse}
       />
       <footer className="mt-8">
         <Legend />

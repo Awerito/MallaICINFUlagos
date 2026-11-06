@@ -76,3 +76,16 @@ export function unapproveFromSemester(approvedIds, courses, semesterNumber) {
     .forEach((course) => next.delete(course.id));
   return next;
 }
+
+export function isDirectlyConnected(
+  courseId,
+  pinnedIds,
+  courseById,
+  coursesOpenedBy,
+) {
+  return pinnedIds.some(
+    (pinnedId) =>
+      coursesOpenedBy[pinnedId].includes(courseId) ||
+      courseById[courseId].prereqs.includes(pinnedId),
+  );
+}

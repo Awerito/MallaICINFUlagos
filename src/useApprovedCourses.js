@@ -68,6 +68,7 @@ export function useApprovedCourses(versionId, courses) {
   return {
     approvedIds,
     courseById,
+    coursesOpenedBy,
     toggleCourse,
     isSemesterFullyApproved,
     toggleSemester,

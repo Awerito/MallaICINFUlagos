@@ -8,6 +8,10 @@ export default function CurriculumGrid({
   onToggleApproved,
   isSemesterFullyApproved,
   onToggleSemester,
+  focusRoleOf,
+  pinnedCourseIds,
+  onSelectCourse,
+  onHoverCourse,
 }) {
   const lastSemesterNumber = Math.max(
     ...courses.map((course) => course.semester),
@@ -62,7 +66,15 @@ export default function CurriculumGrid({
                       approvedIds,
                     )
                   }
+                  focusRole={focusRoleOf(course.id)}
+                  isPinned={pinnedCourseIds.includes(course.id)}
                   onToggleApproved={() => onToggleApproved(course.id)}
+                  onSelect={(event) => {
+                    event.stopPropagation();
+                    onSelectCourse(course.id);
+                  }}
+                  onHover={() => onHoverCourse(course.id)}
+                  onHoverEnd={() => onHoverCourse(null)}
                 />
               ))}
             </section>
