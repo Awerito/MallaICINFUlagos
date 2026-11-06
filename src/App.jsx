@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CURRICULUM_VERSIONS } from "./data/curriculumVersions";
 import { useApprovedCourses } from "./useApprovedCourses";
 import { useCourseFocus } from "./useCourseFocus";
-import { usePlanner } from "./usePlanner";
+import { usePlanner, CREDIT_LIMIT_PER_SEMESTER } from "./usePlanner";
 import CurriculumGrid from "./components/CurriculumGrid";
 import PlannerBar from "./components/PlannerBar";
 import Legend from "./components/Legend";
@@ -38,11 +38,12 @@ export default function App() {
     opensThisSemester,
     columnOpens,
     pickedIds,
+    plannedCount,
     togglePick,
     areAllPicked,
     toggleColumnPicks,
     pickedCredits,
-  } = usePlanner(courseById);
+  } = usePlanner(courseById, selectedVersionId, approvedIds);
 
   return (
     <main
@@ -64,15 +65,33 @@ export default function App() {
               togglePlanning();
             }}
             className={
-              "border-2 px-3.5 py-2 font-semibold " +
+              "flex flex-col items-start gap-1 border-2 px-3.5 py-2 font-semibold " +
               (isPlanning
                 ? "translate-x-[3px] translate-y-[3px] border-blue bg-blue text-white"
                 : "border-ink bg-white shadow-brutal-sm hover:bg-paper")
             }
           >
-            {isPlanning
-              ? "Salir del planificador"
-              : "Planificar mi próximo semestre"}
+            <span>
+              {isPlanning
+                ? "Salir del planificador ›"
+                : "Planificar mi próximo semestre ›"}
+            </span>
+            {!isPlanning && plannedCount > 0 && (
+              <>
+                <span className="text-xs font-normal opacity-80">
+                  {semesterNumber}° semestre · {plannedCount} ramos ·{" "}
+                  {pickedCredits} de {CREDIT_LIMIT_PER_SEMESTER} créditos
+                </span>
+                <span className="h-1.5 w-40 border border-current">
+                  <span
+                    className={`block h-full ${pickedCredits > CREDIT_LIMIT_PER_SEMESTER ? "bg-red" : "bg-blue"}`}
+                    style={{
+                      width: `${Math.min(100, (pickedCredits / CREDIT_LIMIT_PER_SEMESTER) * 100)}%`,
+                    }}
+                  />
+                </span>
+              </>
+            )}
           </button>
           {CURRICULUM_VERSIONS.map((version) => {
             const isSelected = version.id === selectedVersionId;

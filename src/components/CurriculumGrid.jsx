@@ -142,7 +142,7 @@ export default function CurriculumGrid({
                       !isLocked &&
                       course.offered === "A"
                     }
-                    isPicked={isPlanning && pickedIds.has(course.id)}
+                    isPlanned={pickedIds.has(course.id)}
                     onTogglePick={() => onTogglePick(course.id)}
                     focusRole={isPlanning ? null : focusRoleOf(course.id)}
                     isPinned={
