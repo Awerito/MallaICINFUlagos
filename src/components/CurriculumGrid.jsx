@@ -7,7 +7,7 @@ const LICENCIATURA_SEMESTER = 8;
 
 function MilestoneColumn({ shortName, fullName, isReached }) {
   return (
-    <div className="flex w-26 flex-col items-center gap-3">
+    <div className="flex flex-col items-center gap-3">
       <div
         title={fullName}
         className={`grid h-10 w-full place-items-center border-2 font-extrabold ${
@@ -53,12 +53,21 @@ export default function CurriculumGrid({
     { length: lastSemesterNumber },
     (_, index) => index + 1,
   );
+  const columnTemplate = semesterNumbers
+    .map((semesterNumber) =>
+      semesterNumber === LICENCIATURA_SEMESTER ||
+      semesterNumber === lastSemesterNumber
+        ? "minmax(9rem, 1fr) 6.5rem"
+        : "minmax(9rem, 1fr)",
+    )
+    .join(" ");
 
   return (
     <div className="snap-x snap-mandatory overflow-x-auto px-1 pt-1 pb-3">
       <div
         ref={boardRef}
-        className="relative grid w-max auto-cols-auto grid-flow-col gap-4"
+        className="relative grid gap-4"
+        style={{ gridTemplateColumns: columnTemplate }}
       >
         <PrerequisiteArrows
           boardRef={boardRef}
@@ -90,7 +99,7 @@ export default function CurriculumGrid({
               : "border-muted bg-transparent text-muted";
           return (
             <Fragment key={semesterNumber}>
-              <section className="flex w-52 snap-start flex-col gap-3">
+              <section className="flex min-w-0 snap-start flex-col gap-3">
                 <header
                   className={`flex h-10 items-center justify-between border-2 px-2.5 font-extrabold transition-[background-color,color,border-color] duration-250 motion-reduce:transition-none ${headerStateClasses}`}
                 >

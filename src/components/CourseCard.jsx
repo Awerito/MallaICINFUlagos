@@ -45,12 +45,12 @@ export default function CourseCard({
     ? {
         clipPath: SQUARE_CLIP,
         transition:
-          "clip-path 320ms, top 320ms 320ms, right 320ms 320ms, width 320ms 320ms, height 320ms 320ms",
+          "clip-path 320ms, bottom 320ms 320ms, right 320ms 320ms, width 320ms 320ms, height 320ms 320ms",
       }
     : {
         clipPath: CORNER_CLIP,
         transition:
-          "top 320ms, right 320ms, width 320ms, height 320ms, clip-path 320ms 320ms",
+          "bottom 320ms, right 320ms, width 320ms, height 320ms, clip-path 320ms 320ms",
       };
 
   return (
@@ -66,7 +66,7 @@ export default function CourseCard({
         <span
           aria-hidden="true"
           style={plannedMarkStyle}
-          className={`pointer-events-none absolute grid place-items-center bg-blue motion-reduce:transition-none! after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-white after:transition-opacity after:duration-320 after:content-[''] ${isPlanning ? "top-2 right-2 size-5 after:opacity-100" : "-top-0.5 -right-0.5 size-[22px] after:opacity-0"}`}
+          className={`pointer-events-none absolute grid place-items-center bg-blue motion-reduce:transition-none! after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-white after:transition-opacity after:duration-320 after:content-[''] ${isPlanning ? "right-3 bottom-3 size-5 after:opacity-100" : "-right-0.5 bottom-[calc(100%-20px)] size-[22px] after:opacity-0"}`}
         />
       )}
       {!isPlanning && (
@@ -76,7 +76,7 @@ export default function CourseCard({
           onChange={onToggleApproved}
           onClick={(event) => event.stopPropagation()}
           aria-label={`Aprobado: ${course.name}`}
-          className="absolute top-2 right-2 grid size-5 cursor-pointer appearance-none place-items-center border-2 border-current after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-transparent after:content-[''] checked:border-green checked:bg-green checked:after:border-white"
+          className="absolute right-3 bottom-3 grid size-5 cursor-pointer appearance-none place-items-center border-2 border-current after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-transparent after:content-[''] checked:border-green checked:bg-green checked:after:border-white"
         />
       )}
       {showsPickCheckbox && (
@@ -87,19 +87,13 @@ export default function CourseCard({
           onChange={onTogglePick}
           onClick={(event) => event.stopPropagation()}
           aria-label={`Lo tomo: ${course.name}`}
-          className="absolute top-2 right-2 size-5 cursor-pointer appearance-none border-2 border-current checked:border-transparent disabled:cursor-not-allowed disabled:opacity-40"
+          className="absolute right-3 bottom-3 size-5 cursor-pointer appearance-none border-2 border-current checked:border-transparent disabled:cursor-not-allowed disabled:opacity-40"
         />
       )}
       <p
-        className={`pr-7 font-semibold leading-tight ${isApproved ? "line-through decoration-2" : ""}`}
+        className={`font-semibold leading-tight hyphens-auto ${isApproved ? "line-through decoration-2" : ""}`}
       >
         {course.name}
-      </p>
-      <p className="flex items-baseline gap-1 tabular-nums">
-        <span className="text-xl font-extrabold leading-none">
-          {course.sct}
-        </span>
-        <span className="text-xs tracking-wide opacity-70">créditos</span>
       </p>
       {isYearRoundInClosedColumn && (
         <p className="text-xs font-semibold tracking-wide text-blue">
@@ -111,6 +105,12 @@ export default function CourseCard({
           no se abre este semestre
         </p>
       )}
+      <p className="flex items-baseline gap-1 pr-7 tabular-nums">
+        <span className="text-xl font-extrabold leading-none">
+          {course.sct}
+        </span>
+        <span className="text-xs tracking-wide opacity-70">créditos</span>
+      </p>
     </article>
   );
 }
