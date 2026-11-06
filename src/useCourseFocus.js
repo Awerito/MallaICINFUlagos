@@ -19,6 +19,14 @@ export function useCourseFocus(courseById, coursesOpenedBy) {
     coursesOpenedBy[originId].forEach((openedId) => openedIds.add(openedId));
   });
 
+  const arrows = originIds.flatMap((originId) =>
+    coursesOpenedBy[originId].map((openedId) => ({
+      fromId: originId,
+      toId: openedId,
+      isPreview: !pinnedCourseIds.includes(originId),
+    })),
+  );
+
   function focusRoleOf(courseId) {
     if (originIds.length === 0) return null;
     if (originIds.includes(courseId)) return "origin";
@@ -51,6 +59,7 @@ export function useCourseFocus(courseById, coursesOpenedBy) {
 
   return {
     pinnedCourseIds,
+    arrows,
     focusRoleOf,
     hoverCourse: setHoveredCourseId,
     selectCourse,

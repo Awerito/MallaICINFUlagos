@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import CourseCard from "./CourseCard";
+import PrerequisiteArrows from "./PrerequisiteArrows";
 import { hasAllPrerequisitesApproved } from "../curriculumGraph";
 
 export default function CurriculumGrid({
@@ -10,9 +12,11 @@ export default function CurriculumGrid({
   onToggleSemester,
   focusRoleOf,
   pinnedCourseIds,
+  arrows,
   onSelectCourse,
   onHoverCourse,
 }) {
+  const boardRef = useRef(null);
   const lastSemesterNumber = Math.max(
     ...courses.map((course) => course.semester),
   );
@@ -23,7 +27,11 @@ export default function CurriculumGrid({
 
   return (
     <div className="snap-x snap-mandatory overflow-x-auto px-1 pt-1 pb-3">
-      <div className="grid w-max auto-cols-[13rem] grid-flow-col gap-4">
+      <div
+        ref={boardRef}
+        className="relative grid w-max auto-cols-[13rem] grid-flow-col gap-4"
+      >
+        <PrerequisiteArrows boardRef={boardRef} arrows={arrows} />
         {semesterNumbers.map((semesterNumber) => {
           const coursesInSemester = courses.filter(
             (course) => course.semester === semesterNumber,

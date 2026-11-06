@@ -22,6 +22,7 @@ export default function App() {
   } = useApprovedCourses(selectedVersionId, selectedVersion.courses);
   const {
     pinnedCourseIds,
+    arrows,
     focusRoleOf,
     hoverCourse,
     selectCourse,
@@ -70,6 +71,7 @@ export default function App() {
         onToggleSemester={toggleSemester}
         focusRoleOf={focusRoleOf}
         pinnedCourseIds={pinnedCourseIds}
+        arrows={arrows}
         onSelectCourse={selectCourse}
         onHoverCourse={hoverCourse}
       />
