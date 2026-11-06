@@ -60,3 +60,19 @@ export function unapproveWithDependents(
   );
   return next;
 }
+
+export function approveThroughSemester(approvedIds, courses, semesterNumber) {
+  const next = new Set(approvedIds);
+  courses
+    .filter((course) => course.semester <= semesterNumber)
+    .forEach((course) => next.add(course.id));
+  return next;
+}
+
+export function unapproveFromSemester(approvedIds, courses, semesterNumber) {
+  const next = new Set(approvedIds);
+  courses
+    .filter((course) => course.semester >= semesterNumber)
+    .forEach((course) => next.delete(course.id));
+  return next;
+}

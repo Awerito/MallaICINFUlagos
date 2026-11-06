@@ -11,10 +11,13 @@ export default function App() {
   const selectedVersion = CURRICULUM_VERSIONS.find(
     (version) => version.id === selectedVersionId,
   );
-  const { approvedIds, courseById, toggleCourse } = useApprovedCourses(
-    selectedVersionId,
-    selectedVersion.courses,
-  );
+  const {
+    approvedIds,
+    courseById,
+    toggleCourse,
+    isSemesterFullyApproved,
+    toggleSemester,
+  } = useApprovedCourses(selectedVersionId, selectedVersion.courses);
 
   return (
     <main className="min-h-screen bg-paper px-4 py-8 font-sans text-ink sm:px-8">
@@ -51,6 +54,8 @@ export default function App() {
         courseById={courseById}
         approvedIds={approvedIds}
         onToggleApproved={toggleCourse}
+        isSemesterFullyApproved={isSemesterFullyApproved}
+        onToggleSemester={toggleSemester}
       />
       <footer className="mt-8">
         <Legend />

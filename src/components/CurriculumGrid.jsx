@@ -6,6 +6,8 @@ export default function CurriculumGrid({
   courseById,
   approvedIds,
   onToggleApproved,
+  isSemesterFullyApproved,
+  onToggleSemester,
 }) {
   const lastSemesterNumber = Math.max(
     ...courses.map((course) => course.semester),
@@ -32,9 +34,20 @@ export default function CurriculumGrid({
               className="flex snap-start flex-col gap-3"
             >
               <header className="flex items-baseline justify-between bg-ink px-2.5 py-2 font-extrabold text-paper">
-                <span>Semestre {semesterNumber}</span>
-                <span className="text-sm font-normal tabular-nums opacity-85">
-                  {sctInSemester} créditos
+                <span className="whitespace-nowrap">
+                  Semestre {semesterNumber}
+                </span>
+                <span className="flex items-center gap-2.5">
+                  <span className="text-xs font-normal whitespace-nowrap tabular-nums opacity-85">
+                    {sctInSemester} créditos
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={isSemesterFullyApproved(semesterNumber)}
+                    onChange={() => onToggleSemester(semesterNumber)}
+                    aria-label={`Aprobado todo hasta el semestre ${semesterNumber}`}
+                    className="grid size-5 cursor-pointer appearance-none place-items-center border-2 border-current after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-transparent after:content-[''] checked:border-green checked:bg-green checked:after:border-white"
+                  />
                 </span>
               </header>
               {coursesInSemester.map((course) => (

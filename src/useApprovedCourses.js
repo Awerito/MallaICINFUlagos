@@ -3,6 +3,8 @@ import {
   indexCourses,
   approveWithPrerequisites,
   unapproveWithDependents,
+  approveThroughSemester,
+  unapproveFromSemester,
 } from "./curriculumGraph";
 
 const storageKeyFor = (versionId) => `icinf-curriculum/approved/${versionId}`;
@@ -49,5 +51,25 @@ export function useApprovedCourses(versionId, courses) {
     storeApprovedIds(versionId, next);
   }
 
-  return { approvedIds, courseById, toggleCourse };
+  function isSemesterFullyApproved(semesterNumber) {
+    return courses
+      .filter((course) => course.semester <= semesterNumber)
+      .every((course) => approvedIds.has(course.id));
+  }
+
+  function toggleSemester(semesterNumber) {
+    const next = isSemesterFullyApproved(semesterNumber)
+      ? unapproveFromSemester(approvedIds, courses, semesterNumber)
+      : approveThroughSemester(approvedIds, courses, semesterNumber);
+    setApprovedIds(next);
+    storeApprovedIds(versionId, next);
+  }
+
+  return {
+    approvedIds,
+    courseById,
+    toggleCourse,
+    isSemesterFullyApproved,
+    toggleSemester,
+  };
 }
