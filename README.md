@@ -11,6 +11,7 @@ Everything is stored in the browser; there is no backend and no account.
 Requires Node 26+ and pnpm 12.
 
 ```sh
+cp sample.env .env
 pnpm install
 pnpm dev
 ```
@@ -24,15 +25,17 @@ pnpm preview
 
 ## Deploy
 
-The `Dockerfile` builds the app and serves `dist/` with nginx on port 80.
+The `Dockerfile` builds the app and serves `dist/` with nginx on port 80. The
+public URL used in the Open Graph tags comes from the `VITE_SITE_URL` build
+argument, which is required (`.env` covers local builds only):
 
 ```sh
-docker build -t malla-icinf .
+docker build --build-arg VITE_SITE_URL=https://mallaicinf.grye.org -t malla-icinf .
 docker run --rm -p 8080:80 malla-icinf
 ```
 
 On Dokploy, create an application from this repository with the Dockerfile
-build type; no environment variables are needed.
+build type and set `VITE_SITE_URL` as a build argument.
 
 ## License
 
