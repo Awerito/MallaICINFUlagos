@@ -39,6 +39,8 @@ export default function App() {
     columnOpens,
     pickedIds,
     togglePick,
+    areAllPicked,
+    toggleColumnPicks,
     pickedCredits,
   } = usePlanner(courseById);
 
@@ -116,6 +118,8 @@ export default function App() {
         columnOpens={columnOpens}
         pickedIds={pickedIds}
         onTogglePick={togglePick}
+        areAllPicked={areAllPicked}
+        onToggleColumnPicks={toggleColumnPicks}
       />
       <footer className="mt-8">
         <Legend />

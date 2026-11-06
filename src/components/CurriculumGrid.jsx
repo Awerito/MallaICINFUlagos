@@ -20,6 +20,8 @@ export default function CurriculumGrid({
   columnOpens,
   pickedIds,
   onTogglePick,
+  areAllPicked,
+  onToggleColumnPicks,
 }) {
   const boardRef = useRef(null);
   const lastSemesterNumber = Math.max(
@@ -49,6 +51,20 @@ export default function CurriculumGrid({
             0,
           );
           const isColumnOpen = !isPlanning || columnOpens(semesterNumber);
+          const pickableIdsInColumn = isPlanning
+            ? coursesInSemester
+                .filter(
+                  (course) =>
+                    !approvedIds.has(course.id) &&
+                    hasAllPrerequisitesApproved(
+                      course.id,
+                      courseById,
+                      approvedIds,
+                    ) &&
+                    opensThisSemester(course.id),
+                )
+                .map((course) => course.id)
+            : [];
           const headerStateClasses = !isPlanning
             ? "border-ink bg-ink text-paper"
             : isColumnOpen
@@ -85,6 +101,15 @@ export default function CurriculumGrid({
                       onChange={() => onToggleSemester(semesterNumber)}
                       aria-label={`Aprobado todo hasta el semestre ${semesterNumber}`}
                       className="grid size-5 cursor-pointer appearance-none place-items-center border-2 border-current after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-transparent after:content-[''] checked:border-green checked:bg-green checked:after:border-white"
+                    />
+                  )}
+                  {isPlanning && pickableIdsInColumn.length > 0 && (
+                    <input
+                      type="checkbox"
+                      checked={areAllPicked(pickableIdsInColumn)}
+                      onChange={() => onToggleColumnPicks(pickableIdsInColumn)}
+                      aria-label={`Tomar todo el semestre ${semesterNumber}`}
+                      className="grid size-5 cursor-pointer appearance-none place-items-center border-2 border-current after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-transparent after:content-[''] checked:border-blue checked:bg-blue checked:after:border-white"
                     />
                   )}
                 </span>

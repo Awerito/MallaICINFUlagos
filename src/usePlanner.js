@@ -43,6 +43,17 @@ export function usePlanner(courseById) {
     setPickedIds(next);
   }
 
+  function areAllPicked(courseIds) {
+    return courseIds.every((courseId) => pickedIds.has(courseId));
+  }
+
+  function toggleColumnPicks(courseIds) {
+    const next = new Set(pickedIds);
+    if (areAllPicked(courseIds)) courseIds.forEach((id) => next.delete(id));
+    else courseIds.forEach((id) => next.add(id));
+    setPickedIds(next);
+  }
+
   const pickedCredits = [...pickedIds].reduce(
     (total, courseId) => total + courseById[courseId].sct,
     0,
@@ -57,6 +68,8 @@ export function usePlanner(courseById) {
     columnOpens,
     pickedIds,
     togglePick,
+    areAllPicked,
+    toggleColumnPicks,
     pickedCredits,
   };
 }
