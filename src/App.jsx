@@ -200,25 +200,47 @@ export default function App() {
       />
       <footer className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <Legend />
-        <div className="inline-flex shrink-0 self-end border-2 border-ink bg-white sm:self-auto">
-          {CURRICULUM_VERSIONS.map((version, index) => {
-            const isSelected = version.id === selectedVersionId;
-            return (
-              <button
-                key={version.id}
-                type="button"
-                aria-pressed={isSelected}
-                onClick={() => selectVersion(version.id)}
-                className={
-                  "px-2.5 py-1 text-sm font-semibold " +
-                  (index > 0 ? "border-l-2 border-ink " : "") +
-                  (isSelected ? "bg-ink text-paper" : "hover:bg-paper")
-                }
-              >
-                {version.label}
-              </button>
-            );
-          })}
+        <div className="flex shrink-0 flex-col items-end gap-3 self-end sm:self-auto">
+          <div className="inline-flex border-2 border-ink bg-white">
+            {CURRICULUM_VERSIONS.map((version, index) => {
+              const isSelected = version.id === selectedVersionId;
+              return (
+                <button
+                  key={version.id}
+                  type="button"
+                  aria-pressed={isSelected}
+                  onClick={() => selectVersion(version.id)}
+                  className={
+                    "px-2.5 py-1 text-sm font-semibold " +
+                    (index > 0 ? "border-l-2 border-ink " : "") +
+                    (isSelected ? "bg-ink text-paper" : "hover:bg-paper")
+                  }
+                >
+                  {version.label}
+                </button>
+              );
+            })}
+          </div>
+          <p className="text-right text-xs text-muted">
+            © 2026{" "}
+            <a href="https://github.com/Awerito" className="underline">
+              Awerito
+            </a>{" "}
+            ·{" "}
+            <a
+              href="https://github.com/Awerito/MallaICINFUlagos"
+              className="underline"
+            >
+              Código en GitHub
+            </a>{" "}
+            ·{" "}
+            <a
+              href="https://github.com/Awerito/MallaICINFUlagos/blob/main/LICENSE"
+              className="underline"
+            >
+              MIT
+            </a>
+          </p>
         </div>
       </footer>
     </main>
