@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CURRICULUM_VERSIONS } from "./data/curriculumVersions";
+import { useApprovedCourses } from "./useApprovedCourses";
 import CurriculumGrid from "./components/CurriculumGrid";
 import Legend from "./components/Legend";
 
@@ -9,6 +10,10 @@ export default function App() {
   );
   const selectedVersion = CURRICULUM_VERSIONS.find(
     (version) => version.id === selectedVersionId,
+  );
+  const { approvedIds, courseById, toggleCourse } = useApprovedCourses(
+    selectedVersionId,
+    selectedVersion.courses,
   );
 
   return (
@@ -41,7 +46,12 @@ export default function App() {
           })}
         </div>
       </header>
-      <CurriculumGrid courses={selectedVersion.courses} />
+      <CurriculumGrid
+        courses={selectedVersion.courses}
+        courseById={courseById}
+        approvedIds={approvedIds}
+        onToggleApproved={toggleCourse}
+      />
       <footer className="mt-8">
         <Legend />
       </footer>

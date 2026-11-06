@@ -1,6 +1,12 @@
 import CourseCard from "./CourseCard";
+import { hasAllPrerequisitesApproved } from "../curriculumGraph";
 
-export default function CurriculumGrid({ courses }) {
+export default function CurriculumGrid({
+  courses,
+  courseById,
+  approvedIds,
+  onToggleApproved,
+}) {
   const lastSemesterNumber = Math.max(
     ...courses.map((course) => course.semester),
   );
@@ -32,7 +38,19 @@ export default function CurriculumGrid({ courses }) {
                 </span>
               </header>
               {coursesInSemester.map((course) => (
-                <CourseCard key={course.id} course={course} />
+                <CourseCard
+                  key={course.id}
+                  course={course}
+                  isApproved={approvedIds.has(course.id)}
+                  isLocked={
+                    !hasAllPrerequisitesApproved(
+                      course.id,
+                      courseById,
+                      approvedIds,
+                    )
+                  }
+                  onToggleApproved={() => onToggleApproved(course.id)}
+                />
               ))}
             </section>
           );
