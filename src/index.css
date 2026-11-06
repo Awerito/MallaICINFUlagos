@@ -10,6 +10,9 @@
   --color-muted: #6b665c;
   --color-approved: #e3e3e3;
   --color-green: #2f9e44;
+  --color-blue: #1f5fd6;
+  --color-red: #c92a2a;
+  --color-hatch: #ece8df;
   --shadow-brutal: 4px 4px 0 0 var(--color-ink);
   --shadow-brutal-sm: 3px 3px 0 0 var(--color-ink);
 }

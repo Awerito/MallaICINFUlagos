@@ -2,7 +2,9 @@ import { useState } from "react";
 import { CURRICULUM_VERSIONS } from "./data/curriculumVersions";
 import { useApprovedCourses } from "./useApprovedCourses";
 import { useCourseFocus } from "./useCourseFocus";
+import { usePlanner } from "./usePlanner";
 import CurriculumGrid from "./components/CurriculumGrid";
+import PlannerBar from "./components/PlannerBar";
 import Legend from "./components/Legend";
 
 export default function App() {
@@ -28,6 +30,17 @@ export default function App() {
     selectCourse,
     clearPinnedCourses,
   } = useCourseFocus(courseById, coursesOpenedBy);
+  const {
+    isPlanning,
+    togglePlanning,
+    semesterNumber,
+    stepSemester,
+    opensThisSemester,
+    columnOpens,
+    pickedIds,
+    togglePick,
+    pickedCredits,
+  } = usePlanner(courseById);
 
   return (
     <main
@@ -41,7 +54,24 @@ export default function App() {
           </h1>
           <p className="mt-2 text-muted">Universidad de Los Lagos</p>
         </div>
-        <div className="flex gap-2.5">
+        <div className="flex flex-wrap gap-2.5">
+          <button
+            type="button"
+            onClick={() => {
+              clearPinnedCourses();
+              togglePlanning();
+            }}
+            className={
+              "border-2 px-3.5 py-2 font-semibold " +
+              (isPlanning
+                ? "translate-x-[3px] translate-y-[3px] border-blue bg-blue text-white"
+                : "border-ink bg-white shadow-brutal-sm hover:bg-paper")
+            }
+          >
+            {isPlanning
+              ? "Salir del planificador"
+              : "Planificar mi próximo semestre"}
+          </button>
           {CURRICULUM_VERSIONS.map((version) => {
             const isSelected = version.id === selectedVersionId;
             return (
@@ -62,6 +92,13 @@ export default function App() {
           })}
         </div>
       </header>
+      {isPlanning && (
+        <PlannerBar
+          semesterNumber={semesterNumber}
+          onStepSemester={stepSemester}
+          pickedCredits={pickedCredits}
+        />
+      )}
       <CurriculumGrid
         courses={selectedVersion.courses}
         courseById={courseById}
@@ -74,6 +111,11 @@ export default function App() {
         arrows={arrows}
         onSelectCourse={selectCourse}
         onHoverCourse={hoverCourse}
+        isPlanning={isPlanning}
+        opensThisSemester={opensThisSemester}
+        columnOpens={columnOpens}
+        pickedIds={pickedIds}
+        onTogglePick={togglePick}
       />
       <footer className="mt-8">
         <Legend />

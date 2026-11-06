@@ -11,9 +11,15 @@ export default function CourseCard({
   course,
   isApproved,
   isLocked,
+  isPlanning,
+  isClosedThisSemester,
+  isClosedInOpenColumn,
+  isYearRoundInClosedColumn,
+  isPicked,
   focusRole,
   isPinned,
   onToggleApproved,
+  onTogglePick,
   onSelect,
   onHover,
   onHoverEnd,
@@ -22,7 +28,13 @@ export default function CourseCard({
     ? "bg-approved"
     : isLocked
       ? "border-dashed [border-left-style:solid] bg-white text-muted shadow-brutal-sm"
-      : "bg-white shadow-brutal-sm";
+      : isClosedThisSemester
+        ? "bg-[repeating-linear-gradient(135deg,var(--color-white)_0_6px,var(--color-hatch)_6px_8px)] text-muted"
+        : isPicked
+          ? "border-blue bg-white shadow-[3px_3px_0_0_var(--color-blue)]"
+          : "bg-white shadow-brutal-sm";
+  const showsPickCheckbox = isPlanning && !isApproved;
+  const isPickable = !isLocked && !isClosedThisSemester;
 
   return (
     <article
@@ -30,17 +42,30 @@ export default function CourseCard({
       onClick={onSelect}
       onMouseEnter={onHover}
       onMouseLeave={onHoverEnd}
-      className={`relative flex min-w-0 cursor-pointer flex-col gap-2 border-2 border-l-8 border-ink px-3 py-2.5 transition-[opacity,transform,box-shadow] duration-120 motion-reduce:transition-none ${stateClasses} ${focusClasses[focusRole] ?? ""} ${isPinned ? "outline-3 outline-offset-3 outline-ink" : ""}`}
+      className={`relative flex min-w-0 cursor-pointer flex-col gap-2 border-2 border-l-8 border-ink px-3 py-2.5 transition-[opacity,transform,box-shadow,background-color,color] duration-250 motion-reduce:transition-none ${stateClasses} ${focusClasses[focusRole] ?? ""} ${isPinned ? "outline-3 outline-offset-3 outline-ink" : ""}`}
       style={{ borderLeftColor: areas[course.area].color }}
     >
-      <input
-        type="checkbox"
-        checked={isApproved}
-        onChange={onToggleApproved}
-        onClick={(event) => event.stopPropagation()}
-        aria-label={`Aprobado: ${course.name}`}
-        className="absolute top-2 right-2 grid size-5 cursor-pointer appearance-none place-items-center border-2 border-current after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-transparent after:content-[''] checked:border-green checked:bg-green checked:after:border-white"
-      />
+      {!isPlanning && (
+        <input
+          type="checkbox"
+          checked={isApproved}
+          onChange={onToggleApproved}
+          onClick={(event) => event.stopPropagation()}
+          aria-label={`Aprobado: ${course.name}`}
+          className="absolute top-2 right-2 grid size-5 cursor-pointer appearance-none place-items-center border-2 border-current after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-transparent after:content-[''] checked:border-green checked:bg-green checked:after:border-white"
+        />
+      )}
+      {showsPickCheckbox && (
+        <input
+          type="checkbox"
+          checked={isPicked}
+          disabled={!isPickable}
+          onChange={onTogglePick}
+          onClick={(event) => event.stopPropagation()}
+          aria-label={`Lo tomo: ${course.name}`}
+          className="absolute top-2 right-2 grid size-5 cursor-pointer appearance-none place-items-center border-2 border-current after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-transparent after:content-[''] checked:border-blue checked:bg-blue checked:after:border-white disabled:cursor-not-allowed disabled:opacity-40"
+        />
+      )}
       <p
         className={`pr-7 font-semibold leading-tight ${isApproved ? "line-through decoration-2" : ""}`}
       >
@@ -52,6 +77,16 @@ export default function CourseCard({
         </span>
         <span className="text-xs tracking-wide opacity-70">créditos</span>
       </p>
+      {isYearRoundInClosedColumn && (
+        <p className="text-xs font-semibold tracking-wide text-blue">
+          todo el año
+        </p>
+      )}
+      {isClosedInOpenColumn && (
+        <p className="text-xs font-semibold tracking-wide">
+          no se abre este semestre
+        </p>
+      )}
     </article>
   );
 }

@@ -89,3 +89,13 @@ export function isDirectlyConnected(
       courseById[courseId].prereqs.includes(pinnedId),
   );
 }
+
+export function columnOpensInSemester(columnNumber, semesterNumber) {
+  return columnNumber % 2 === semesterNumber % 2;
+}
+
+export function opensInSemester(course, semesterNumber) {
+  if (course.offered === "A") return true;
+  const offeredInOddSemesters = course.offered === "I";
+  return offeredInOddSemesters === (semesterNumber % 2 === 1);
+}
