@@ -11,7 +11,7 @@ export default function CourseCard({ course }) {
         <span className="text-xl font-extrabold leading-none">
           {course.sct}
         </span>
-        <span className="text-xs tracking-wide text-muted">SCT</span>
+        <span className="text-xs tracking-wide text-muted">créditos</span>
       </p>
     </article>
   );

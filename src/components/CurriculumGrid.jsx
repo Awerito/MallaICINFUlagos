@@ -28,7 +28,7 @@ export default function CurriculumGrid({ courses }) {
               <header className="flex items-baseline justify-between bg-ink px-2.5 py-2 font-extrabold text-paper">
                 <span>Semestre {semesterNumber}</span>
                 <span className="text-sm font-normal tabular-nums opacity-85">
-                  {sctInSemester} SCT
+                  {sctInSemester} créditos
                 </span>
               </header>
               {coursesInSemester.map((course) => (
