@@ -46,10 +46,6 @@ export default function CurriculumGrid({
           const coursesInSemester = courses.filter(
             (course) => course.semester === semesterNumber,
           );
-          const sctInSemester = coursesInSemester.reduce(
-            (total, course) => total + course.sct,
-            0,
-          );
           const isColumnOpen = !isPlanning || columnOpens(semesterNumber);
           const pickableIdsInColumn = isPlanning
             ? coursesInSemester
@@ -76,24 +72,17 @@ export default function CurriculumGrid({
               className="flex snap-start flex-col gap-3"
             >
               <header
-                className={`flex items-baseline justify-between border-2 px-2.5 py-2 font-extrabold transition-[background-color,color,border-color] duration-250 motion-reduce:transition-none ${headerStateClasses}`}
+                className={`flex h-10 items-center justify-between border-2 px-2.5 font-extrabold transition-[background-color,color,border-color] duration-250 motion-reduce:transition-none ${headerStateClasses}`}
               >
                 <span className="whitespace-nowrap">
                   Semestre {semesterNumber}
                   {isPlanning && (
                     <span className="ml-1.5 text-[0.7rem] font-semibold tracking-wide">
-                      {isColumnOpen
-                        ? "· se abre"
-                        : "· no se abre este semestre"}
+                      {isColumnOpen ? "· se abre" : "· no se abre"}
                     </span>
                   )}
                 </span>
-                <span className="flex items-center gap-2.5">
-                  {isColumnOpen && (
-                    <span className="text-xs font-normal whitespace-nowrap tabular-nums opacity-85">
-                      {sctInSemester} créditos
-                    </span>
-                  )}
+                <span className="flex size-5 shrink-0 items-center justify-center">
                   {!isPlanning && (
                     <input
                       type="checkbox"
