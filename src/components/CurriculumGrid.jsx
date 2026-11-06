@@ -1,7 +1,29 @@
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import CourseCard from "./CourseCard";
 import PrerequisiteArrows from "./PrerequisiteArrows";
 import { hasAllPrerequisitesApproved } from "../curriculumGraph";
+
+const LICENCIATURA_SEMESTER = 8;
+
+function MilestoneColumn({ shortName, fullName, isReached }) {
+  return (
+    <div className="flex w-26 flex-col items-center gap-3">
+      <div
+        title={fullName}
+        className={`grid h-10 w-full place-items-center border-2 font-extrabold ${
+          isReached
+            ? "border-ink bg-ink text-paper"
+            : "border-dashed border-ink bg-[repeating-linear-gradient(135deg,var(--color-white)_0_6px,var(--color-hatch)_6px_8px)] text-muted"
+        }`}
+      >
+        {shortName}
+      </div>
+      <span
+        className={`flex-1 ${isReached ? "border-l-4 border-ink" : "border-l-2 border-dashed border-ink"}`}
+      />
+    </div>
+  );
+}
 
 export default function CurriculumGrid({
   courses,
@@ -36,7 +58,7 @@ export default function CurriculumGrid({
     <div className="snap-x snap-mandatory overflow-x-auto px-1 pt-1 pb-3">
       <div
         ref={boardRef}
-        className="relative grid w-max auto-cols-[13rem] grid-flow-col gap-4"
+        className="relative grid w-max auto-cols-auto grid-flow-col gap-4"
       >
         <PrerequisiteArrows
           boardRef={boardRef}
@@ -67,89 +89,106 @@ export default function CurriculumGrid({
               ? "border-ink border-b-[6px] border-b-blue bg-ink text-paper"
               : "border-muted bg-transparent text-muted";
           return (
-            <section
-              key={semesterNumber}
-              className="flex snap-start flex-col gap-3"
-            >
-              <header
-                className={`flex h-10 items-center justify-between border-2 px-2.5 font-extrabold transition-[background-color,color,border-color] duration-250 motion-reduce:transition-none ${headerStateClasses}`}
-              >
-                <span className="whitespace-nowrap">
-                  Semestre {semesterNumber}
-                  {isPlanning && (
-                    <span className="ml-1.5 text-[0.7rem] font-semibold tracking-wide">
-                      {isColumnOpen ? "· se abre" : "· no se abre"}
-                    </span>
-                  )}
-                </span>
-                <span className="flex size-5 shrink-0 items-center justify-center">
-                  {!isPlanning && (
-                    <input
-                      type="checkbox"
-                      checked={isSemesterFullyApproved(semesterNumber)}
-                      onChange={() => onToggleSemester(semesterNumber)}
-                      aria-label={`Aprobado todo hasta el semestre ${semesterNumber}`}
-                      className="grid size-5 cursor-pointer appearance-none place-items-center border-2 border-current after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-transparent after:content-[''] checked:border-green checked:bg-green checked:after:border-white"
+            <Fragment key={semesterNumber}>
+              <section className="flex w-52 snap-start flex-col gap-3">
+                <header
+                  className={`flex h-10 items-center justify-between border-2 px-2.5 font-extrabold transition-[background-color,color,border-color] duration-250 motion-reduce:transition-none ${headerStateClasses}`}
+                >
+                  <span className="whitespace-nowrap">
+                    Semestre {semesterNumber}
+                    {isPlanning && (
+                      <span className="ml-1.5 text-[0.7rem] font-semibold tracking-wide">
+                        {isColumnOpen ? "· se abre" : "· no se abre"}
+                      </span>
+                    )}
+                  </span>
+                  <span className="flex size-5 shrink-0 items-center justify-center">
+                    {!isPlanning && (
+                      <input
+                        type="checkbox"
+                        checked={isSemesterFullyApproved(semesterNumber)}
+                        onChange={() => onToggleSemester(semesterNumber)}
+                        aria-label={`Aprobado todo hasta el semestre ${semesterNumber}`}
+                        className="grid size-5 cursor-pointer appearance-none place-items-center border-2 border-current after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-transparent after:content-[''] checked:border-green checked:bg-green checked:after:border-white"
+                      />
+                    )}
+                    {isPlanning && pickableIdsInColumn.length > 0 && (
+                      <input
+                        type="checkbox"
+                        checked={areAllPicked(pickableIdsInColumn)}
+                        onChange={() =>
+                          onToggleColumnPicks(pickableIdsInColumn)
+                        }
+                        aria-label={`Tomar todo el semestre ${semesterNumber}`}
+                        className="grid size-5 cursor-pointer appearance-none place-items-center border-2 border-current after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-transparent after:content-[''] checked:border-blue checked:bg-blue checked:after:border-white"
+                      />
+                    )}
+                  </span>
+                </header>
+                {coursesInSemester.map((course) => {
+                  const isApproved = approvedIds.has(course.id);
+                  const isLocked = !hasAllPrerequisitesApproved(
+                    course.id,
+                    courseById,
+                    approvedIds,
+                  );
+                  const isClosedThisSemester =
+                    isPlanning &&
+                    !isApproved &&
+                    !isLocked &&
+                    !opensThisSemester(course.id);
+                  return (
+                    <CourseCard
+                      key={course.id}
+                      course={course}
+                      isApproved={isApproved}
+                      isLocked={isLocked}
+                      isPlanning={isPlanning}
+                      isClosedThisSemester={isClosedThisSemester}
+                      isClosedInOpenColumn={
+                        isClosedThisSemester && isColumnOpen
+                      }
+                      isYearRoundInClosedColumn={
+                        isPlanning &&
+                        !isColumnOpen &&
+                        !isApproved &&
+                        !isLocked &&
+                        course.offered === "A"
+                      }
+                      isPlanned={pickedIds.has(course.id)}
+                      onTogglePick={() => onTogglePick(course.id)}
+                      focusRole={isPlanning ? null : focusRoleOf(course.id)}
+                      isPinned={
+                        !isPlanning && pinnedCourseIds.includes(course.id)
+                      }
+                      onToggleApproved={() => onToggleApproved(course.id)}
+                      onSelect={(event) => {
+                        event.stopPropagation();
+                        if (!isPlanning) onSelectCourse(course.id);
+                      }}
+                      onHover={() => {
+                        if (!isPlanning) onHoverCourse(course.id);
+                      }}
+                      onHoverEnd={() => onHoverCourse(null)}
                     />
-                  )}
-                  {isPlanning && pickableIdsInColumn.length > 0 && (
-                    <input
-                      type="checkbox"
-                      checked={areAllPicked(pickableIdsInColumn)}
-                      onChange={() => onToggleColumnPicks(pickableIdsInColumn)}
-                      aria-label={`Tomar todo el semestre ${semesterNumber}`}
-                      className="grid size-5 cursor-pointer appearance-none place-items-center border-2 border-current after:h-1.5 after:w-[11px] after:-translate-y-[2px] after:-rotate-45 after:border-b-[3px] after:border-l-[3px] after:border-transparent after:content-[''] checked:border-blue checked:bg-blue checked:after:border-white"
-                    />
-                  )}
-                </span>
-              </header>
-              {coursesInSemester.map((course) => {
-                const isApproved = approvedIds.has(course.id);
-                const isLocked = !hasAllPrerequisitesApproved(
-                  course.id,
-                  courseById,
-                  approvedIds,
-                );
-                const isClosedThisSemester =
-                  isPlanning &&
-                  !isApproved &&
-                  !isLocked &&
-                  !opensThisSemester(course.id);
-                return (
-                  <CourseCard
-                    key={course.id}
-                    course={course}
-                    isApproved={isApproved}
-                    isLocked={isLocked}
-                    isPlanning={isPlanning}
-                    isClosedThisSemester={isClosedThisSemester}
-                    isClosedInOpenColumn={isClosedThisSemester && isColumnOpen}
-                    isYearRoundInClosedColumn={
-                      isPlanning &&
-                      !isColumnOpen &&
-                      !isApproved &&
-                      !isLocked &&
-                      course.offered === "A"
-                    }
-                    isPlanned={pickedIds.has(course.id)}
-                    onTogglePick={() => onTogglePick(course.id)}
-                    focusRole={isPlanning ? null : focusRoleOf(course.id)}
-                    isPinned={
-                      !isPlanning && pinnedCourseIds.includes(course.id)
-                    }
-                    onToggleApproved={() => onToggleApproved(course.id)}
-                    onSelect={(event) => {
-                      event.stopPropagation();
-                      if (!isPlanning) onSelectCourse(course.id);
-                    }}
-                    onHover={() => {
-                      if (!isPlanning) onHoverCourse(course.id);
-                    }}
-                    onHoverEnd={() => onHoverCourse(null)}
-                  />
-                );
-              })}
-            </section>
+                  );
+                })}
+              </section>
+              {semesterNumber === LICENCIATURA_SEMESTER && (
+                <MilestoneColumn
+                  shortName="Licenciatura"
+                  fullName="Licenciatura en Ciencias de la Ingeniería"
+                  isReached={isSemesterFullyApproved(LICENCIATURA_SEMESTER)}
+                />
+              )}
+              {semesterNumber === lastSemesterNumber && (
+                <MilestoneColumn
+                  shortName="Título"
+                  fullName="Título de Ingeniería Civil en Informática"
+                  isReached={isSemesterFullyApproved(lastSemesterNumber)}
+                />
+              )}
+            </Fragment>
           );
         })}
       </div>

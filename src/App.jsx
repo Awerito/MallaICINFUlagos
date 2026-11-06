@@ -7,10 +7,30 @@ import CurriculumGrid from "./components/CurriculumGrid";
 import PlannerBar from "./components/PlannerBar";
 import Legend from "./components/Legend";
 
+const VERSION_STORAGE_KEY = "icinf-curriculum/version";
+
+function readStoredVersionId() {
+  try {
+    const stored = localStorage.getItem(VERSION_STORAGE_KEY);
+    return CURRICULUM_VERSIONS.some((version) => version.id === stored)
+      ? stored
+      : CURRICULUM_VERSIONS[0].id;
+  } catch {
+    return CURRICULUM_VERSIONS[0].id;
+  }
+}
+
+function storeVersionId(versionId) {
+  try {
+    localStorage.setItem(VERSION_STORAGE_KEY, versionId);
+  } catch {
+    // storage unavailable: the choice still lives in memory for this session
+  }
+}
+
 export default function App() {
-  const [selectedVersionId, setSelectedVersionId] = useState(
-    CURRICULUM_VERSIONS[0].id,
-  );
+  const [selectedVersionId, setSelectedVersionId] =
+    useState(readStoredVersionId);
   const selectedVersion = CURRICULUM_VERSIONS.find(
     (version) => version.id === selectedVersionId,
   );
@@ -45,6 +65,20 @@ export default function App() {
     pickedCredits,
   } = usePlanner(courseById, selectedVersionId, approvedIds);
 
+  const sumCredits = (courses) =>
+    courses.reduce((total, course) => total + course.sct, 0);
+  const approvedCourses = selectedVersion.courses.filter((course) =>
+    approvedIds.has(course.id),
+  );
+  const approvedCredits = sumCredits(approvedCourses);
+  const totalCredits = sumCredits(selectedVersion.courses);
+  const progressPercent = Math.round((approvedCredits / totalCredits) * 100);
+
+  function selectVersion(versionId) {
+    setSelectedVersionId(versionId);
+    storeVersionId(versionId);
+  }
+
   return (
     <main
       className="min-h-screen bg-paper px-4 py-8 font-sans text-ink sm:px-8"
@@ -55,69 +89,55 @@ export default function App() {
           <h1 className="text-3xl font-extrabold leading-none tracking-tight sm:text-4xl">
             Ingeniería Civil en Informática
           </h1>
-          <p className="mt-2 text-muted">Universidad de Los Lagos</p>
+          <p className="mt-2 text-muted tabular-nums">
+            Universidad de Los Lagos ·{" "}
+            <span className="font-extrabold text-ink">{progressPercent} %</span>{" "}
+            de la carrera · {approvedCourses.length} de{" "}
+            {selectedVersion.courses.length} ramos · {approvedCredits} de{" "}
+            {totalCredits} créditos
+          </p>
         </div>
-        <div className="flex flex-wrap gap-2.5">
-          <button
-            type="button"
-            onClick={() => {
-              clearPinnedCourses();
-              togglePlanning();
-            }}
-            className={
-              "relative flex flex-col items-start gap-1 border-2 px-3.5 py-2 font-semibold " +
-              (isPlanning
-                ? "translate-x-[3px] translate-y-[3px] border-blue bg-blue text-white"
-                : "border-ink bg-white shadow-brutal-sm hover:bg-paper")
-            }
-          >
-            {!isPlanning && plannedCount > 0 && (
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute -top-0.5 -right-0.5 size-7 bg-blue [clip-path:polygon(0_0,100%_0,100%_100%,100%_100%)]"
-              />
-            )}
-            <span>
-              {isPlanning
-                ? "Salir del planificador ›"
-                : "Planificar mi próximo semestre ›"}
-            </span>
-            {!isPlanning && plannedCount > 0 && (
-              <>
-                <span className="text-xs font-normal opacity-80">
-                  {semesterNumber}° semestre · {plannedCount} ramos ·{" "}
-                  {pickedCredits} de {CREDIT_LIMIT_PER_SEMESTER} créditos
-                </span>
-                <span className="h-1.5 w-40 border border-current">
-                  <span
-                    className={`block h-full ${pickedCredits > CREDIT_LIMIT_PER_SEMESTER ? "bg-red" : "bg-blue"}`}
-                    style={{
-                      width: `${Math.min(100, (pickedCredits / CREDIT_LIMIT_PER_SEMESTER) * 100)}%`,
-                    }}
-                  />
-                </span>
-              </>
-            )}
-          </button>
-          {CURRICULUM_VERSIONS.map((version) => {
-            const isSelected = version.id === selectedVersionId;
-            return (
-              <button
-                key={version.id}
-                type="button"
-                onClick={() => setSelectedVersionId(version.id)}
-                className={
-                  "border-2 border-ink px-3.5 py-2 font-semibold " +
-                  (isSelected
-                    ? "translate-x-[3px] translate-y-[3px] bg-ink text-paper"
-                    : "bg-white shadow-brutal-sm hover:bg-paper")
-                }
-              >
-                {version.label}
-              </button>
-            );
-          })}
-        </div>
+        <button
+          type="button"
+          onClick={() => {
+            clearPinnedCourses();
+            togglePlanning();
+          }}
+          className={
+            "relative flex flex-col items-start gap-1 border-2 px-3.5 py-2 font-semibold " +
+            (isPlanning
+              ? "translate-x-[3px] translate-y-[3px] border-blue bg-blue text-white"
+              : "border-ink bg-white shadow-brutal-sm hover:bg-paper")
+          }
+        >
+          {!isPlanning && plannedCount > 0 && (
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -top-0.5 -right-0.5 size-7 bg-blue [clip-path:polygon(0_0,100%_0,100%_100%,100%_100%)]"
+            />
+          )}
+          <span>
+            {isPlanning
+              ? "Salir del planificador ›"
+              : "Planificar mi próximo semestre ›"}
+          </span>
+          {!isPlanning && plannedCount > 0 && (
+            <>
+              <span className="text-xs font-normal opacity-80">
+                {semesterNumber}° semestre · {plannedCount} ramos ·{" "}
+                {pickedCredits} de {CREDIT_LIMIT_PER_SEMESTER} créditos
+              </span>
+              <span className="h-1.5 w-40 border border-current">
+                <span
+                  className={`block h-full ${pickedCredits > CREDIT_LIMIT_PER_SEMESTER ? "bg-red" : "bg-blue"}`}
+                  style={{
+                    width: `${Math.min(100, (pickedCredits / CREDIT_LIMIT_PER_SEMESTER) * 100)}%`,
+                  }}
+                />
+              </span>
+            </>
+          )}
+        </button>
       </header>
       {isPlanning && (
         <PlannerBar
@@ -146,8 +166,28 @@ export default function App() {
         areAllPicked={areAllPicked}
         onToggleColumnPicks={toggleColumnPicks}
       />
-      <footer className="mt-8">
+      <footer className="mt-8 flex flex-wrap items-start justify-between gap-4">
         <Legend />
+        <div className="inline-flex border-2 border-ink bg-white">
+          {CURRICULUM_VERSIONS.map((version, index) => {
+            const isSelected = version.id === selectedVersionId;
+            return (
+              <button
+                key={version.id}
+                type="button"
+                aria-pressed={isSelected}
+                onClick={() => selectVersion(version.id)}
+                className={
+                  "px-2.5 py-1 text-sm font-semibold " +
+                  (index > 0 ? "border-l-2 border-ink " : "") +
+                  (isSelected ? "bg-ink text-paper" : "hover:bg-paper")
+                }
+              >
+                {version.label}
+              </button>
+            );
+          })}
+        </div>
       </footer>
     </main>
   );
